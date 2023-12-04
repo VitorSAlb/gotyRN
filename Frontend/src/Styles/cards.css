@@ -1,0 +1,155 @@
+.nr-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    grid-gap: 5px;
+    width: 98%;
+    height: fit-content;
+    margin: 0 auto;
+    padding: 0 5rem;
+    justify-content: space-around;
+}
+
+.tgy-card,
+.nr-card {
+    background-color: #D9D9D9;
+    width: 155px;
+    height: fit-content;
+    margin: 5px;
+    cursor: pointer;
+}
+
+.tgy-card:hover,
+.nr-card:hover {
+    opacity: 0.7;
+}
+
+.photo-card {
+    background-color: #414141;
+    width: 155px;
+    height: 202px;
+}
+
+.photo-card img {
+    width: 155px;
+    height: 202px;
+}
+
+.info-card {
+    display: grid;
+    padding: 0.25rem;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+}
+
+.name-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.name-card h1 {
+    font-size: small;
+    width: 100px; /* Largura máxima para o contêiner do título */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; 
+}
+
+.name-card p {
+    font-size: xx-small;
+    opacity: 0.7;
+}
+
+.publisher-card {
+    font-size: x-small;
+    opacity: 0.7;
+}
+
+.info-card div.score h1{
+    text-align: center;
+    font-size: small;
+}
+
+.info-card div.progress-container {
+    margin: 0 auto;
+    width: 50%;
+}
+
+.section-two {
+    display: flex;
+}
+
+.tgy-section {
+    width: 50%;
+}
+
+.tgy-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between; 
+    align-content: space-between; 
+    width: 90%;
+    height: fit-content;
+    margin: 0 auto;
+    padding: 0 4rem;
+}
+
+.cards-slider {
+    width: 50%;
+}
+
+.cardao-section div.tittle {
+    opacity: 0;
+}
+
+.cardao {
+    background-color: #D9D9D9;
+    width: 310px;
+    height: 520px;
+    margin: auto auto
+
+}
+
+.photo-cardao {
+    background-color: #414141;
+    width: 100%;
+    height: 404px;
+}
+
+.chao {
+    display: grid;
+    align-items: end;
+    grid-template-rows: 99% 1%;
+}
+
+.scoreg-banner {
+    display: flex;
+    width: 100%;
+    height: fit-content;
+    align-items: baseline;
+}
+
+
+.progress-container {
+    width: 100%;
+    background-color: #ccc;
+}
+
+.progress-bar {
+    width: 91%;
+    height: 3.5px;
+    background-color: #4caf50;
+    transition: width 0.5s;
+}
+
+.progress-bar-green {
+    background-color: #299D49 ;
+}
+
+.progress-bar-yellow {
+    background-color: #D7AE1D;
+}
+
+.progress-bar-red {
+    background-color: #D82929;
+}   

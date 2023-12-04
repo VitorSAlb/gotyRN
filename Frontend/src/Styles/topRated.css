@@ -1,0 +1,250 @@
+.tr-section {
+    display: flex;
+    background-color: #ffffff;
+    width: 100%;
+    height: fit-content;
+    padding: 1.5rem 15rem;
+    font-family: 'Roboto', Times, serif;
+    font-weight: 100;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.rankNumber {
+    padding-top: 1px;
+}
+
+.tr-card {
+    display: flex;
+    background-color: #FFFF;
+    width: 100%;
+    height: fit-content;
+    margin: 5px;
+    cursor: pointer;
+}
+
+.tr-card:hover {
+    opacity: 0.7;
+}
+
+.tr-photo-card {
+    justify-content: left;
+    background-color: #2d2d2d;
+    width: 310px;
+    height: 404px;
+}
+
+.tr-photo-card img {
+    border: 0.5px solid black;
+    height: 404px;
+    width: 310px;
+}
+
+.tr-info-card {
+    display: grid;
+    width: 100%;
+    margin-left: 0.5rem;
+    grid-template-rows: min-content max-content;
+}
+
+.tr-name-card {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+    height: fit-content;
+}
+
+.tr-name-card h1 {
+    font-size: 3rem;
+    width: 80%; /* Largura máxima para o contêiner do título */
+    text-overflow: ellipsis; 
+    justify-self: left;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.tr-name-card h3 {
+    justify-self: right;
+}
+
+.tr-genero-card,
+.tr-publisher-card {
+    display: grid;
+    align-items: start;
+    width: fit-content;
+    height: fit-content;
+}
+
+.tr-genero-card h3,
+.tr-publisher-card {
+    font-size: 1.4rem;
+}
+
+.tr-info-card div.score h1{
+    text-align: center;
+    font-size: small;
+}
+
+.tr-info-card div.progress-container {
+    margin: 0 auto;
+    width: 50%;
+}
+
+.score-tr {
+    display: flex;
+    width: 100%;
+    height: fit-content;
+    align-items: baseline;
+    align-self: end;
+    font-size: 2rem;
+    font-weight: 400;
+}
+
+.score-tr h4 {
+    margin-left: 0.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.chao {
+    display: grid;
+    align-items: end;
+    grid-template-rows: 99% 1%;
+    grid-template-rows: 1fr;
+}
+
+.progress-container-tr {
+    width: 100%;
+    background-color: #ccc;
+    align-self: end;
+
+}
+
+.progress-bar {
+    width: 91%;
+    height: 3.5px;
+    background-color: #4caf50;
+    transition: width 0.5s;
+}
+
+.progress-bar-green {
+    background-color: #299D49 ;
+}
+
+.progress-bar-yellow {
+    background-color: #D7AE1D;
+}
+
+.progress-bar-red {
+    background-color: #D82929;
+}   
+
+/* Adicionado estilo para a versão quando a tela é até 1200px de largura */
+@media only screen and (max-width: 1200px) {
+    .tr-section {
+        padding: 1.5rem 5rem; /* Reduzido o espaçamento nas laterais */
+    }
+
+    .tr-card {
+        margin: 5px;
+    }
+
+    .tr-photo-card {
+        width: 155px; /* Ajustado para ocupar a largura total */
+        height: 202px; /* Ajustado para altura automática */
+    }
+
+    .tr-photo-card img {
+        width: 155px; /* Ajustado para ocupar a largura total */
+        height: 202px; /* Ajustado para altura automática */
+    }
+
+    .tr-info-card {
+        margin-left: 0; /* Ajustado para remover a margem à esquerda */
+    }
+
+    .tr-name-card h1 {
+        font-size: 2rem; /* Reduzido o tamanho do título */
+        width: 300px; /* Ajustado para ocupar a largura total */
+        white-space: nowrap;
+        overflow: hidden;
+    }
+
+    .tr-genero-card,
+    .tr-publisher-card {
+        width: 100%; /* Ajustado para ocupar a largura total */
+    }
+
+    .tr-info-card div.score h1 {
+        font-size: smaller; /* Reduzido o tamanho do texto */
+    }
+
+    .tr-info-card div.progress-container {
+        width: 100%; /* Ajustado para ocupar a largura total */
+    }
+
+    .score-tr {
+        font-size: 1.5rem; /* Reduzido o tamanho do texto */
+    }
+
+    .score-tr h4 {
+        font-size: 0.8rem; /* Reduzido o tamanho do texto */
+    }
+
+    .chao {
+        grid-template-rows: 1fr; /* Removido o segundo conjunto de linhas do grid */
+    }
+
+    .progress-container-tr {
+        width: 100%; /* Ajustado para ocupar a largura total */
+    }
+
+    .progress-bar {
+        height: 2px; /* Reduzido a altura da barra de progresso */
+    }
+}
+
+@media only screen and (max-width: 1200px) {
+    .tr-section {
+        padding: 1.5rem 0;
+        width: 430%;
+    }
+
+    .tr-photo-card {
+        margin-left: 1rem;
+    }
+
+    .tr-name-card {
+        display: grid;
+    }
+
+    .tr-name-card h1 {
+        font-size: 2rem;
+        width: 100%; /* Largura máxima para o contêiner do título */
+        text-overflow: ellipsis; 
+        justify-self: left;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+
+    .tr-name-card h3 {
+        display: none;
+    }
+
+    .tr-info-card {
+        width: 200px;
+    }
+
+    .tr-genero-card h3,
+    .tr-publisher-card {
+        font-size: 0.7rem;
+    }
+
+    .chao,
+    .score-tr {
+        width: 100%;
+    }
+
+
+}
