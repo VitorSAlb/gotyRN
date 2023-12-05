@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 
 import Footer from '../Components/Footer'
 import Header from '../Components/Header'
@@ -12,10 +12,32 @@ import "../Styles/forms.css"
 
 function LoginForm() {
 
-    const handleLogin = (e) => {
-
-      };
-
+        const [UsuarioEmail, setUsuarioEmail] = useState('');
+        const [UsuarioSenha, setUsuarioSenha] = useState('');
+      
+        const handleSubmit = async (e) => {
+          e.preventDefault();
+      
+          try {
+            const response = await fetch('http://localhost:3000/login', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ UsuarioEmail, UsuarioSenha }),
+            });
+      
+            if (response.ok) {
+              const data = await response.json();
+              console.log(data.mensagem);
+              // Implemente a lógica para redirecionar ou manipular a resposta do login
+            } else {
+              console.error('Erro ao realizar login:', response.statusText);
+            }
+          } catch (error) {
+            console.error('Erro ao realizar login:', error.message);
+          }
+        };
 
     return (
         <>
@@ -26,28 +48,25 @@ function LoginForm() {
                 </div>
                     <div className="all-container-lr">
                         <div className="container-forms-lr">
-                            <form className='login-form-lr' id="loginForm">
-                                <label htmlFor="email"></label>
+                            <form onSubmit={handleSubmit} className='login-form-lr' id="loginForm">
+                            
                                 <input className="input-lr" type="email" 
-                                id="email" 
                                 name="email" 
                                 placeholder="Digite seu endereço de email" 
-                                required 
-                                onChange={(e) => setEmail(e.target.value)}
+                                value = {UsuarioEmail}
+                                onChange={(e) => setUsuarioEmail(e.target.value)}
                                 />
 
-                                <label htmlFor="senha"></label>
                                 <input className="input-lr" type="password" 
-                                id="senha" 
                                 name="senha" 
+                                value = {UsuarioSenha}
                                 placeholder="Digite sua senha" 
-                                required 
-                                onChange={(e) => setPassword(e.target.value)}
+                                onChange={(e) => setUsuarioSenha(e.target.value)}
                                 />
 
-                                <button type="button" className='btn-login-lr'
-                                        onClick={(e) => handleLogin(e)}>Login</button>
-                                <label><a href="/src/pages/registro.html">Registre-se</a></label>
+                                <button className='btn-login-lr'
+                                        type="submit">Login</button>
+                                <label><a href="/Registro">Registre-se</a></label>
                             </form>
                         </div>
                         <hr />

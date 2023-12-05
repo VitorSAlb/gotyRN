@@ -44,18 +44,18 @@ const NrSection = () => {
               <p>{item.PlataformaNome}</p>
             </div>
             <div className="score">
-              <h1>90</h1>
+              <h1>{item.Nota}</h1>
             </div>
             <div className="progress-container">
               <div
                 className={`progress-bar ${
-                  90 < 50
+                  item.Nota < 50
                     ? 'progress-bar-red'
-                    : 90 < 80
+                    : item.Nota < 80
                     ? 'progress-bar-yellow'
                     : 'progress-bar-green'
                 }`}
-                style={{ width: `${90}%` }}
+                style={{ width: `${item.Nota}%` }}
                 id="progress"
               ></div>
             </div>

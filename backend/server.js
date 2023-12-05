@@ -18,7 +18,7 @@ const db = new sqlite3.Database('GOTY.db', (err) => {
     }
   });
 
-// Cria uma tabela cao ela não exista no banco de dados GOTY.db
+// Cria uma tabela caso ela não exista no banco de dados GOTY.db
 db.run(
     `CREATE TABLE IF NOT EXISTS Jogos(
         JogosID INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -36,6 +36,25 @@ db.run(
             console.error(err);
         }else{
             console.log("Tabela Jogos criada com sucesso.");
+        }
+    }
+);
+
+db.run(
+    `CREATE TABLE IF NOT EXISTS Usuarios(
+        UsuariosID INTEGER PRIMARY KEY AUTOINCREMENT,
+        UsuarioNome TEXT,
+        Username TEXT,
+        UsuarioEmail TEXT,
+        UsuarioSenha TEXT,
+        dataDeNascimento TEXT,
+        Ativo BOOLEAN
+    )`,
+    (err)=>{
+        if(err){
+            console.error(err);
+        }else{
+            console.log("Tabela Usuarios criada com sucesso.");
         }
     }
 );
@@ -72,7 +91,7 @@ function adicionarJogo(novoJogo) {
   
     db.run(sql, [JogosNome, ImagemJogo, PlataformaNome, GeneroNome, Descricao, DataDeLancamento], (err) => {
       if (err) {
-        console.error('Erro ao adicionar o jogo:', err.message);
+        console.error('Erro ao adicionar o Jogo:', err.message);
       } else {
         console.log('Jogo adicionado com sucesso!');
       }
@@ -102,6 +121,45 @@ function adicionarJogo(novoJogo) {
         callback(err);
       } else {
         callback(null);
+      }
+    });
+  }
+
+  function adicionarUsuario(novoUsuario) {
+    const { UsuarioNome, Username, UsuarioEmail, UsuarioSenha, dataDeNascimento, Ativo } = novoUsuario;
+    const sql = 'INSERT INTO Usuarios ( UsuarioNome, Username, UsuarioEmail, UsuarioSenha, dataDeNascimento, Ativo ) VALUES (?, ?, ?, ?, ?, 1)';
+  
+    db.run(sql, [UsuarioNome, Username, UsuarioEmail, UsuarioSenha, dataDeNascimento], (err) => {
+      if (err) {
+        console.error('Erro ao adicionar o Usuario:', err.message);
+      } else {
+        console.log('Usuario adicionado com sucesso!');
+      }
+    });
+  }
+
+  function realizarLogin(UsuarioEmail, UsuarioSenha, callback) {
+    const sqlSelect = 'SELECT * FROM Usuarios WHERE UsuarioEmail = ? AND UsuarioSenha = ?';
+    const sqlUpdate = 'UPDATE Usuarios SET Ativo = 1 WHERE UsuariosID = ?';
+  
+    db.get(sqlSelect, [UsuarioEmail, UsuarioSenha], (err, row) => {
+      if (err) {
+        console.error('Erro ao realizar login:', err.message);
+        callback(err, null);
+      } else if (!row) {
+        callback(null, null); // Usuário ou senha inválidos
+      } else {
+        const usuarioId = row.UsuariosID;
+  
+        // Marcar o usuário como ativo
+        db.run(sqlUpdate, [usuarioId], (errUpdate) => {
+          if (errUpdate) {
+            console.error('Erro ao marcar o usuário como ativo:', errUpdate.message);
+            callback(errUpdate, null);
+          } else {
+            callback(null, row);
+          }
+        });
       }
     });
   }
@@ -159,6 +217,25 @@ app.put('/editarJogo/:id', (req, res) => {
     const novoJogo = req.body;
     adicionarJogo(novoJogo);
     res.send('Jogo adicionado com sucesso!');
+  });
+
+  app.post('/api/usuarios', (req, res) => {
+    const novoUsuario = req.body;
+    adicionarUsuario(novoUsuario);
+    res.send('Usuario adicionado com sucesso!');
+  });
+
+  app.post('/login', (req, res) => {
+    const { UsuarioEmail, UsuarioSenha } = req.body;
+  
+    // Função para realizar login
+    realizarLogin(UsuarioEmail, UsuarioSenha, (err, usuarioAutenticado) => {
+      if (err || !usuarioAutenticado) {
+        res.status(401).send('Email ou senha inválidos');
+      } else {
+        res.json({ mensagem: 'Login bem-sucedido', usuario: usuarioAutenticado });
+      }
+    });
   });
 
   app.use((req, res, next) => {

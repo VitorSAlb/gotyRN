@@ -5,7 +5,7 @@ import App from './App'
 import Jogos from './Routes/Jogos'
 import Login from './Routes/Login'
 import Registro from './Routes/Registro'
-import Teste from './Routes/Teste'
+import CrudJ from './Routes/crudJ'
 
 import "./Styles/reset.css"
 import "./Styles/base.css"
@@ -35,7 +35,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/crudJogos",
-    element: <Teste />,
+    element: <CrudJ />,
   },
   {
     path: "/jogos",

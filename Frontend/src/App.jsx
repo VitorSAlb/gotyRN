@@ -14,13 +14,13 @@ function App() {
     <>
       <Header />
       <main>
-        <div class="tittle-banner">
+        <div className="tittle-banner">
               <h3>Mais Popular</h3>
           </div>
           <Banner />
           
           <div>
-            <div class="tittle">
+            <div className="tittle">
               <h2>Últimos Lançamentos</h2>
               <hr/>
             </div>
@@ -28,9 +28,9 @@ function App() {
             <NrSection />
           </div>
           
-          <div class="section-two">
-            <div class="tgy-section">
-                <div class="tittle">
+          <div className="section-two">
+            <div className="tgy-section">
+                <div className="tittle">
                     <h2>Melhores Jogos</h2>
                     <hr/>
                 </div>
@@ -38,8 +38,8 @@ function App() {
                 <TGY />
             </div>
 
-            <div class="cardao-section" >
-                <div class="tittle">
+            <div className="cardao-section" >
+                <div className="tittle">
                     <h2>cards-slider</h2>
                     <hr/>
                 </div>

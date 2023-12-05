@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 
 import Footer from '../Components/Footer'
 import Header from '../Components/Header'
@@ -7,10 +7,39 @@ import "../Styles/base.css"
 import "../Styles/forms.css"
 
 function Registro() {
-    
-  const handleRegistration = (e) => {
-    // Handle registration logic here
-    // You can use React state or any state management library to handle form data
+  const [novoUsuario, setNovoUsuario] = useState({
+    UsuarioNome: "",
+    Username: "", // Alterado o nome do campo para corresponder ao estado
+    UsuarioEmail: "",
+    UsuarioSenha: "",
+    DataDeNascimento: "",
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setNovoUsuario({ ...novoUsuario, [name]: value });
+  };
+
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+
+    try {
+      const response = await fetch('http://localhost:3000/api/usuarios', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(novoUsuario),
+      });
+
+      if (response.ok) {
+        console.log('Usuario adicionado com sucesso!');
+      } else {
+        console.error('Erro ao adicionar o Usuario:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Erro ao adicionar o Usuario:', error.message);
+    }
   };
 
   return (
@@ -23,24 +52,25 @@ function Registro() {
         </div>
         <div className="all-container-lr">
           <div className="container-forms-lr">
+            
             <form id="registroForm">
-              <label htmlFor="nomeSobrenome"></label>
-              <input className="input-lr" type="text" id="nomeSobrenome" name="nomeSobrenome" placeholder="Digite seu nome completo" required />
+              
+              <input className="input-lr" type="text" name="UsuarioNome" value={novoUsuario.UsuarioNome} onChange={handleInputChange} placeholder="Digite seu nome completo" />
 
-              <label htmlFor="username"></label>
-              <input className="input-lr" type="text" id="username" name="username" placeholder="Escolha um nome de usuário" required />
+              
+              <input className="input-lr" type="text" name="Username" value={novoUsuario.Username} placeholder="Escolha um nome de usuário" onChange={handleInputChange}/>
 
-              <label htmlFor="email"></label>
-              <input className="input-lr" type="email" id="email" name="email" placeholder="Digite seu endereço de email" required />
+              
+              <input className="input-lr" type="email" name="UsuarioEmail" value={novoUsuario.UsuarioEmail} placeholder="Digite seu endereço de email" onChange={handleInputChange}/>
 
-              <label htmlFor="senha"></label>
-              <input className="input-lr" type="password" id="senha" name="senha" placeholder="Digite sua senha" required />
+              
+              <input className="input-lr" type="password" name="UsuarioSenha" value={novoUsuario.UsuarioSenha} placeholder="Digite sua senha" onChange={handleInputChange}/>
 
-              <label htmlFor="dataNascimento"></label>
-              <input className="input-lr" type="date" id="dataNascimento" name="dataNascimento" placeholder="Selecione sua data de nascimento" required />
+              
+              <input className="input-lr" type="date" name="DataDeNascimento" value={novoUsuario.DataDeNascimento} placeholder="Selecione sua data de nascimento" onChange={handleInputChange}/>
 
-              <button className='btn-reg-lr' type="button" onClick={handleRegistration}>Registre-se</button>
-              <label><a href="/src/pages/login.html">Login</a></label>
+              <button className='btn-reg-lr' type="button" onClick={handleSubmit}>Registre-se</button>
+              <label><a href="/Login">Login</a></label>
             </form>
           </div>
 
