@@ -2,7 +2,7 @@ import React from 'react'
 
 import Footer from '../Components/Footer'
 import Header from '../Components/Header'
-import Descubra from '../components/RandomGames';
+// import Descubra from '../components/RandomGames';
 import Principal from '../components/Principal'
 
 
@@ -21,12 +21,12 @@ function Teste3() {
         <Principal />
 
           <div>
-            <div className="tittle">
+            {/* <div className="tittle">
               <h2>Descubra</h2>
               <hr/>
-            </div>
+            </div> */}
 
-            <Descubra />
+            {/* <Descubra /> */}
           </div>        
       </main>
       <Footer />

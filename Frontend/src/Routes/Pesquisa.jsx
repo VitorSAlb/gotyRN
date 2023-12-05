@@ -44,10 +44,8 @@ function Pesquisa() {
          // Ordenar os jogos por data em ordem decrescente
          const jogosOrdenados = data.sort((a, b) => new Date(b.DataDeLancamento) - new Date(a.DataDeLancamento));
 
-         // Limitar a lista para apenas os primeiros 8 jogos
-         const jogosLimitados = jogosOrdenados.slice(0, 8);
 
-        setResultados(jogosLimitados);
+        setResultados(jogosOrdenados);
       } catch (error) {
         console.error('Erro ao obter jogos:', error.message);
       }
@@ -90,6 +88,21 @@ function Pesquisa() {
     </>
   );
 }
+
+const getFormattedDate = (date) => {
+  if (date) {
+    const parsedDate = new Date(date);
+
+    if (!isNaN(parsedDate.getTime())) {
+      // Se a data for válida, formate-a
+      return format(parsedDate, 'dd/MM/yyyy');
+    } else {
+      console.error('Data inválida:', date);
+    }
+  }
+
+  return '00/00/0000';
+};
 
 // Componente para renderizar os cards
 const RenderCards = ({ data }) => {
