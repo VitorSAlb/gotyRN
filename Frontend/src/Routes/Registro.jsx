@@ -69,7 +69,7 @@ function Registro() {
               
               <input className="input-lr" type="date" name="DataDeNascimento" value={novoUsuario.DataDeNascimento} placeholder="Selecione sua data de nascimento" onChange={handleInputChange}/>
 
-              <button className='btn-reg-lr' type="button" onClick={handleSubmit}>Registre-se</button>
+              <button className='btn-reg-lr' href="/UserPG" type="button" onClick={handleSubmit}>Registre-se</button>
               <label><a href="/Login">Login</a></label>
             </form>
           </div>

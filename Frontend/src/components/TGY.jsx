@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { format } from 'date-fns';
+import { Link } from 'react-router-dom';
 import "../Styles/cards.css"
 
 const NrSection = () => {
@@ -35,17 +36,29 @@ const NrSection = () => {
   }
 
   const getFormattedDate = (date) => {
-    return format(new Date(date), 'dd/MM/yyyy');
-  }
+    if (date) {
+      const parsedDate = new Date(date);
+  
+      if (!isNaN(parsedDate.getTime())) {
+        // Se a data for válida, formate-a
+        return format(parsedDate, 'dd/MM/yyyy');
+      } else {
+        console.error('Data inválida:', date);
+      }
+    }
+  
+    return ''; // ou outra ação apropriada se a data não estiver presente ou for inválida
+  };
+  
 
   return (
     <div className="nr-section" id="newRelease">
       {jogos.map((item) => (
-        <div key={item.JogosID} className="nr-card" onClick={() => cardClick(item.JogosID)}>
+        <Link key={item.JogosID} to={`/teste3/${item.JogosID}`} className="nr-card">
           <div className="photo-card">
             <img
               style={{ height: '202px', width: '155px' }}
-              src={item.ImagemJogo ? item.ImagemJogo : `../img/capaGames/${getFormattedGamesName(item.JogosNome)}.svg`}
+              src={item.ImagemJogo ? `../img/capaGames/${item.ImagemJogo}.svg` : item.ImagemJogo }
               alt={`Capa do jogo ${item.JogosNome}`}
             />
           </div>
@@ -74,7 +87,7 @@ const NrSection = () => {
               ></div>
             </div>
           </div>
-        </div>
+        </Link>
       ))}
     </div>
   );

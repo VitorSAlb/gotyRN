@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { format } from 'date-fns';
 import "../Styles/cards.css"
+import { Link } from 'react-router-dom';
 
 const TrSection = () => {
   const [jogos, setJogos] = useState([]);
@@ -42,12 +43,12 @@ const TrSection = () => {
     <>
       <div className="top-rated-section" id="trs-container">
       {jogos.map((item) => (
-        <div className="tr-section">
+        <Link className="tr-section" to={`/teste3/${item.JogosID}`}>
           <div key={item.JogosID} className='tr-card'>
             <div className='tr-photo-card'>
               <img
                 style={{ height: '404px', width: '310px' }}
-                src={item.ImagemJogo ? item.ImagemJogo : `../img/capaGames/${getFormattedGamesName(item.JogosNome)}.svg`}
+                src={item.ImagemJogo ? `../img/capaGames/${item.ImagemJogo}.svg` : item.ImagemJogo }
                 alt={`Capa do jogo ${item.JogosNome}`}
               />
             </div>
@@ -84,7 +85,7 @@ const TrSection = () => {
               </div>
             </div>
           </div>
-        </div>
+        </Link>
       ))}
     </div>
     </>

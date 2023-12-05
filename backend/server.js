@@ -23,6 +23,79 @@ const port = 3000;
         }
       });
 
+      function adicionarJogosIniciais(callback) {
+        // Verificar se há jogos existentes antes de adicionar
+        obterTodosOsJogos((err, jogos) => {
+          if (err) {
+            console.error('Erro ao obter jogos existentes:', err.message);
+            return;
+          }
+      
+          if (jogos.length === 0) {
+            const jogosIniciais = [
+              { JogosNome: 'Starfield', ImagemJogo: "starfield", PlataformaNome: 'Microsoft', GeneroNome: "RPG | Aventura", Descricao: "Jogo", DataDeLancamento: "06/09/2023", Nota: 70, Avaliacoes: 1, PlataformaID: 0  },
+              { JogosNome: 'Redfall', ImagemJogo: "redfall", PlataformaNome: 'Microsoft', GeneroNome: "Aventura", Descricao: "A cidade-ilha de Redfall, Massachusetts, foi cercada por uma legião de vampiros, que bloquearam o sol e isolaram os habitantes do mundo exterior", DataDeLancamento: "2023-05-02"},
+              { JogosNome: 'Star Wars Jedi Survivor', ImagemJogo: "star-wars-jedi-survivor", PlataformaNome: 'Steam | Microsoft | PSN', GeneroNome: "Aventura | Ação", Descricao: "A história de Cal Kestis continua em STAR WARS Jedi: Survivor™, uma aventura em terceira pessoa na galáxia.", DataDeLancamento: "2023-04-28", Nota: 64, Avaliacoes: 1, PlataformaID: 0  },
+              { JogosNome: 'Spider Man 02', ImagemJogo: "spider-man-02", PlataformaNome: 'PSN', GeneroNome: "Aventura | Ação", Descricao: "Os Spiders Peter Parker e Miles Morales estão de volta em mais uma aventura eletrizante da famosa franquia Marvel's Spider-Man para PS5.", DataDeLancamento: "2023-10-20", Nota: 91, Avaliacoes: 1, PlataformaID: 0  },
+              { JogosNome: "Baldur's Gate III", ImagemJogo: "baldurs-gate-III", PlataformaNome: 'Steam | PSN', GeneroNome: "RPG | Aventura", Descricao: "Reúna seu grupo e retorne aos Reinos Esquecidos em uma história de companheirismo e traição, sacrifício e sobrevivência, e a atração do poder absoluto.", DataDeLancamento: "2023-08-03", Nota: 89, Avaliacoes: 1, PlataformaID: 0  },
+              { JogosNome: 'Dead Space', ImagemJogo: "dead-space-remake", PlataformaNome: 'PSN | Steam | Microsoft', GeneroNome: "Terror | Ação", Descricao: "O clássico de terror de sobrevivência e ficção científica está de volta, totalmente reformulado para oferecer uma experiência ainda mais imersiva", DataDeLancamento: "2023-01-27", Nota: 88, Avaliacoes: 1, PlataformaID: 0  },
+              { JogosNome: 'Diablo IV', ImagemJogo: "diablo-IV", PlataformaNome: 'Microsoft | Steam', GeneroNome: "RPG | Aventura", Descricao: "Junte-se à luta por Santuário no Diablo IV, a aventura suprema de RPG de ação. Vivencie a campanha aclamada pela crítica e os novos conteúdos de temporada", DataDeLancamento: "2023-06-06", Nota: 22, Avaliacoes: 0, PlataformaID: 0  },
+              { JogosNome: 'Minecraft', ImagemJogo: "minecraft", PlataformaNome: 'PSN | Microsoft | Nintendo', GeneroNome: "Sandbox | Aventura", Descricao: "Minecraft é um jogo feito de blocos que você pode transformar em tudo que puder imaginar", DataDeLancamento: "2012-05-09", Nota: 100, Avaliacoes: 0, PlataformaID: 0 },
+              { JogosNome: 'Super Mario 64', ImagemJogo: "super-mario-64", PlataformaNome: 'Nintendo', GeneroNome: "Plataforma", Descricao: "Com controles intuitivos, a mecânica de saltos acrobáticos de Mario foi aprimorada para se adaptar ao ambiente 3D. Os diferentes cursos oferecem uma variedade de objetivos e quebra-cabeças, incentivando a exploração.", DataDeLancamento: "2004-11-20", Nota: 99, Avaliacoes: 0, PlataformaID: 0 },
+              { JogosNome: 'The Legend of Zelda Tears of the Kingdom', ImagemJogo: "zelda-tears-of-the-kingdom", PlataformaNome: 'Nintendo', GeneroNome: "Aventura", Descricao: "Nesta continuação de The Legend of Zelda: Breath of the Wild, você decidirá seu próprio caminho pelas extensas paisagens de Hyrule e pelas misteriosas ilhas flutuantes nos vastos céus.", DataDeLancamento: "2023-05-12", Nota: 96, Avaliacoes: 0, PlataformaID: 0 },
+              { JogosNome: 'God of War', ImagemJogo: "god-of-war-2018", PlataformaNome: 'PSN', GeneroNome: "Aventura", Descricao: "Esta impressionante repaginação de God of War reúne todas as características marcantes dessa famosa franquia — combate brutal, lutas épicas contra chefes e uma grandiosidade de tirar o fôlego — e as mescla a uma narrativa poderosa e emocionante que reestabelece o mundo de Kratos", DataDeLancamento: "2018-04-20", Nota: 91, Avaliacoes: 0, PlataformaID: 0  },
+              { JogosNome: 'Pokemon: Fire Red', ImagemJogo: "pokemon-fire-red", PlataformaNome: 'Nintendo', GeneroNome: "Aventura | RPG", Descricao: "Uma recriação do clássico Pokemon Red, apresenta gráficos aprimorados, novos recursos e a região de Kanto para explorar. Os jogadores embarcam em uma jornada para se tornarem mestres Pokémon, capturando e treinando criaturas, derrotando líderes de ginásio e enfrentando a Equipe Rocket.", DataDeLancamento: "2004-09-07", Nota: 100, Avaliacoes: 0, PlataformaID: 0 }
+            ];
+      
+            jogosIniciais.forEach((jogo) => {
+              adicionarJogo(jogo, (err) => {
+                if (err) {
+                  console.error('Erro ao adicionar jogo inicial:', err.message);
+                }
+              });
+            });
+      
+          } else {
+            console.log('Jogos já existem. Não há necessidade de adicionar jogos iniciais.');
+          }
+        });
+      }
+      
+      // Função para adicionar plataformas de exemplo
+      function adicionarPlataformasIniciais(callback) {
+        // Verificar se há plataformas existentes antes de adicionar
+        obterTodasAsPlataformas((err, plataformas) => {
+          if (err) {
+            console.error('Erro ao obter plataformas existentes:', err.message);
+            return;
+          }
+      
+          if (plataformas.length === 0) {
+            const plataformasIniciais = [
+              { PlataformaNome: 'PSN' },
+              { PlataformaNome: 'Steam' },
+              { PlataformaNome: 'Microsoft' },
+              { PlataformaNome: 'Nintendo' },
+              { PlataformaNome: 'Epic Games' },
+              // Adicione mais plataformas conforme necessário
+            ];
+      
+            plataformasIniciais.forEach((plataforma) => {
+              adicionarPlataforma(plataforma, (err) => {
+                if (err) {
+                  console.error('Erro ao adicionar plataforma inicial:', err.message);
+                }
+              });
+            });
+      
+          } else {
+            console.log('Plataformas já existem. Não há necessidade de adicionar plataformas iniciais.');
+            
+          }
+        });
+      }
+  
+      
   // -----------------------------------------------------
   // CRIAÇÃO DE TABELAS PARA JOGOS, PLATAFORMAS E USUARIOS
 
@@ -35,7 +108,7 @@ const port = 3000;
           GeneroNome TEXT,
           Descricao TEXT,
           DataDeLancamento DATE,
-          Nota FLOAT,
+          Nota INTEGER,
           Avaliacoes INTEGER
       )`,
       (err)=>{
@@ -81,6 +154,8 @@ const port = 3000;
     }
   );
 
+  adicionarJogosIniciais()
+  adicionarPlataformasIniciais()
 // -----------------------------------------------------
 // FUNÇÕES TABELA JOGOS
 
@@ -97,10 +172,10 @@ const port = 3000;
       });
     }
 
-  function obterJogoPorId(jogoId, callback) {
+  function obterJogoPorId(jogosId, callback) {
       const sql = 'SELECT * FROM Jogos WHERE JogosID = ?';
     
-      db.get(sql, [jogoId], (err, row) => {
+      db.get(sql, [jogosId], (err, row) => {
           if (err) {
               console.error('Erro ao obter o jogo:', err.message);
               callback(err, null);
@@ -150,6 +225,20 @@ const port = 3000;
     });
   }
 
+  function pesquisaJogos(pesquisa, callback) {
+    const sql = 'SELECT * FROM Jogos WHERE JogosNome LIKE ?';
+    const termoPesquisa = `%${pesquisa}%`;
+  
+    db.all(sql, [termoPesquisa], (err, rows) => {
+      if (err) {
+        console.error('Erro ao obter jogos por nome aproximado:', err.message);
+        callback(err, null);
+      } else {
+        callback(null, rows);
+      }
+    });
+  }
+
 // -----------------------------------------------------
 // FUNÇÕES TABELA USUARIOS
 
@@ -192,22 +281,62 @@ const port = 3000;
     });
   }
 
+  function verificarUsuarioAtivo(callback) {
+    const sql = 'SELECT * FROM Usuarios WHERE Ativo = 1';
+
+    db.get(sql, (err, row) => {
+        if (err) {
+            console.error('Erro ao verificar usuário ativo:', err.message);
+            callback(err, null);
+        } else {
+            callback(null, row !== null);
+        }
+    });
+}
+
 // -----------------------------------------------------
 // FUNÇÕES TABELA PLATAFORMAS
 
-function adicionarPlataforma(novaPlataforma) {
-  const { PlataformaID, PlataformaNome, Descricao } = novaPlataforma;
-  const sql = 'INSERT INTO Plataformas ( PlataformaID, PlataformaNome, Descricao ) VALUES ( ?, ?, ?)';
+  function obterTodasAsPlataformas(callback) {
+    const sql = 'SELECT * FROM Plataformas';
 
-  db.run(sql, [PlataformaID, PlataformaNome, Descricao], (err) => {
-    if (err) {
-      console.error('Erro ao adicionar a plataforma:', err.message);
-    } else {
-      console.log('Plataforma adicionada com sucesso!');
-    }
-  });
+    db.all(sql, [], (err, rows) => {
+        if (err) {
+            console.error('Erro ao obter todos as plataformas:', err.message);
+            callback(err, null);
+        } else {
+            callback(null, rows);
+        }
+    });
+  }
+
+  function adicionarPlataforma(novaPlataforma) {
+    const { PlataformaID, PlataformaNome, Descricao } = novaPlataforma;
+    const sql = 'INSERT INTO Plataformas ( PlataformaID, PlataformaNome, Descricao ) VALUES ( ?, ?, ?)';
+
+    db.run(sql, [PlataformaID, PlataformaNome, Descricao], (err) => {
+      if (err) {
+        console.error('Erro ao adicionar a plataforma:', err.message);
+      } else {
+        console.log('Plataforma adicionada com sucesso!');
+      }
+    });
+  }
+
+  function obterPlataformaPorID(plataformaID) {
+    const sql = 'SELECT * FROM Plataformas WHERE PlataformaID = ?';
+
+    return new Promise((resolve, reject) => {
+        db.get(sql, [plataformaID], (err, plataforma) => {
+            if (err) {
+                console.error('Erro ao obter informações da plataforma:', err.message);
+                reject(err);
+            } else {
+                resolve(plataforma);
+            }
+        });
+    });
 }
-
 // -----------------------------------------------------
 // FUNÇÕES IMAGEM
 
@@ -239,7 +368,33 @@ function adicionarPlataforma(novaPlataforma) {
   );
 
   // ENDPOINTS JOGOS ------------------------------------------
-    app.get('/obterTodosOsJogos', (req, res) => {
+// No servidor (antes da inicialização do servidor):
+      app.post('/logout', (req, res) => {
+        const sqlUpdate = 'UPDATE Usuarios SET Ativo = 0 WHERE Ativo = 1';
+
+        db.run(sqlUpdate, [], (err) => {
+          if (err) {
+            console.error('Erro ao realizar logout:', err.message);
+            res.status(500).send('Erro ao realizar logout');
+          } else {
+            res.send('Logout realizado com sucesso!');
+          }
+        });
+      });
+
+
+
+      app.get('/obterTodasAsPlataformas', (req, res) => {
+        obterTodasAsPlataformas((err, plataformas) => {
+          if (err || !plataformas) {
+            res.status(500).send('Erro ao obter plataformas');
+          } else {
+            res.json(plataformas);
+          }
+        });
+      });
+      
+      app.get('/obterTodosOsJogos', (req, res) => {
         obterTodosOsJogos((err, jogos) => {
           if (err || !jogos) {
             res.status(500).send('Erro ao obter jogos');
@@ -248,18 +403,33 @@ function adicionarPlataforma(novaPlataforma) {
           }
         });
       });
-
-    app.get('/obterJogo/:id', (req, res) => {
-        const jogoId = req.params.id;
-        obterJogoPorId(jogoId, (err, jogo) => {
-          if (err || !jogo) {
-            res.status(404).send('Jogo não encontrado');
+      
+      app.get('/verificarUsuario', (req, res) => {
+        verificarUsuarioAtivo((err, usuario) => {
+          if (err || !usuario) {
+            res.status(500).send('Erro ao obter jogos');
           } else {
-            res.json(jogo);
+            res.json(usuario);
           }
         });
       });
+      
+    app.get('/obterJogoPorId/:id', (req, res) => {
+      const jogoId = req.params.id;
+      obterJogoPorId(jogoId, (err, jogo) => {
+          if (err || !jogo) {
+              res.status(404).send('Jogo não encontrado');
+          } else {
+              // Incluir informações sobre a plataforma
+              const plataforma = obterPlataformaPorID(jogo.PlataformaID);
+              const jogoComPlataforma = { ...jogo, Plataforma: plataforma };
+              res.json(jogoComPlataforma);
+          }
+      });
+  });
 
+
+  
     app.put('/editarJogo/:id', (req, res) => {
         const jogoId = req.params.id;
         const novosDados = req.body;
@@ -271,6 +441,36 @@ function adicionarPlataforma(novaPlataforma) {
             res.send('Jogo editado com sucesso!');
           }
         });
+    });
+
+    app.get('/jogos/pesquisar', (req, res) => {
+      const pesquisa = req.query.nome;
+    
+      if (!pesquisa) {
+        res.status(400).send('Parâmetro "nome" não fornecido na consulta.');
+        return;
+      }
+    
+      // Função para obter jogos com nome aproximado
+      pesquisaJogos(pesquisa, (err, jogos) => {
+        if (err) {
+          res.status(500).send('Erro ao realizar pesquisa por nome aproximado.');
+        } else {
+          res.json(jogos);
+        }
+      });
+    });
+
+    app.delete('/excluirJogo/:id', (req, res) => {
+      const jogoId = req.params.id;
+    
+      excluirJogo(jogoId, (err) => {
+        if (err) {
+          res.status(500).send('Erro ao excluir o jogo');
+        } else {
+          res.send('Jogo excluído com sucesso!');
+        }
+      });
     });
 
     app.post('/api/jogos', (req, res) => {
@@ -305,6 +505,7 @@ function adicionarPlataforma(novaPlataforma) {
       });
     });
 
+
   // ENDPOINTS PLATAFORMAS ------------------------------------
 
     app.post('/api/plataformas', (req, res) => {
@@ -313,6 +514,20 @@ function adicionarPlataforma(novaPlataforma) {
       res.send('Plataforma adicionada com sucesso!');
     });
 
+  
+  //______________________
+  //MODULOS DE EXPORTAÇÃO
+
+  module.exports = {
+    obterTodosOsJogos,
+    obterJogoPorId,
+    adicionarJogo,
+    editarJogo,
+    excluirJogo,
+    verificarUsuarioAtivo
+  };
+
+  
   // ______________________
   // INICIALIZAÇÃO SERVIDOR
     app.use((req, res, next) => {
@@ -329,3 +544,4 @@ function adicionarPlataforma(novaPlataforma) {
     app.listen(port, () => {
       console.log(`Servidor escutando no porto ${port}`);
     });
+

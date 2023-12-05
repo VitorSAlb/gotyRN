@@ -1,3 +1,9 @@
+link {
+    color: black;
+    font-style: none;
+    text-decoration: none;
+}
+
 .nr-section {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
@@ -16,6 +22,8 @@
     height: fit-content;
     margin: 5px;
     cursor: pointer;
+    text-decoration: none; /* Remover sublinhado */
+    color: inherit;
 }
 
 .tgy-card:hover,

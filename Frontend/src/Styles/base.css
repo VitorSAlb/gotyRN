@@ -11,19 +11,38 @@ main {
     padding-bottom: 4rem;
 }
 
+link {
+    color: black;
+    font-style: none;
+    text-decoration: none;
+}
+
 hr {
     background-color: #000000;
 }
 
-.tittle {
+.tittleLista {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-self: center;
     font-family: 'Roboto', sans-serif;
     padding: 4rem 5rem 1rem 5rem;
 }
 
+.tittle {
+    display: flex;
+    flex-direction: column;
+    font-family: 'Roboto', sans-serif;
+    padding: 4rem 5rem 1rem 5rem;
+}
+
+.tittleLista h1,
 .tittle h1 {
     font-weight: 300;
 }
 
+.tittleLista h2,
 .tittle h2 {
     font-family: 'Roboto', sans-serif;
     font-weight: 300;
@@ -46,3 +65,37 @@ hr {
 .hr {
     padding: 0 5rem 1rem 5rem;
 }
+
+#searchContainer {
+    text-align: center;
+    margin: 1rem 0;
+}
+  
+  #searchInput {
+    border-radius: 20px;
+    width: 300px; 
+    height: 40px;
+    padding: 10px; 
+    font-size: 16px; 
+  }
+  
+  #searchButton {
+    border-radius: 20px;
+    padding: 10px 20px; 
+    font-size: 16px;
+    cursor: pointer;
+    background-color: lightgray;
+    border: 1px solid black;
+    color: black;
+    width: 3vw;
+    height: 40px;
+  }
+  
+  #searchButton:hover {
+    opacity: 0.7;
+  }
+
+  #pesquisaMaluca {
+    display: flex;
+    justify-content: space-between;
+  }

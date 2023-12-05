@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { format } from 'date-fns';
+import { Link } from 'react-router-dom';
 import "../Styles/cards.css";
 
 const RandomGames = () => {
@@ -41,11 +42,11 @@ const RandomGames = () => {
   return (
     <div className="nr-section" id="newRelease">
       {jogos.map((item) => (
-        <div key={item.JogosID} className="nr-card" onClick={() => cardClick(item.JogosID)}>
+        <Link key={item.JogosID} to={`/jogos/jogo/${item.JogosID}`} className="nr-card">
           <div className="photo-card">
             <img
               style={{ height: '202px', width: '155px' }}
-              src={item.ImagemJogo ? item.ImagemJogo : `../img/capaGames/${getFormattedGameName(item.JogosNome)}.svg`}
+              src={item.ImagemJogo ? `../img/capaGames/${item.ImagemJogo}.svg` : item.ImagemJogo }
               alt={`Capa do jogo ${item.JogosNome}`}
             />
           </div>
@@ -74,7 +75,7 @@ const RandomGames = () => {
               ></div>
             </div>
           </div>
-        </div>
+        </Link>
       ))}
     </div>
   );

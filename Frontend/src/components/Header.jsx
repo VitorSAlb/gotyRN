@@ -1,4 +1,5 @@
 import "../Styles/Header.css";
+import { Link } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 
 const Header = () => {
@@ -24,31 +25,20 @@ const Header = () => {
   };
 
   useEffect(() => {
-    // Simulação de uma chamada à API para obter o nome do usuário ativo
-    // Substitua isso pela lógica real de chamada à API do seu backend
-    // Aqui você deve obter o nome do usuário ativo do seu backend
-    // e definir o estado activeUser com esse nome de usuário.
-    // Exemplo fictício:
-    // fetch('/api/getActiveUser')
-    //   .then(response => response.json())
-    //   .then(data => setActiveUser(data.username));
-
-    // Simulação de atualização periódica do usuário a cada 5 segundos
-    const interval = setInterval(() => {
-      // Lógica de chamada à API aqui para obter o nome do usuário ativo
-      // Substitua isso pela lógica real de chamada à API do seu backend
-      // e atualize o estado activeUser com o nome de usuário ativo.
-    }, 5000);
-
-    // Adiciona evento de redimensionamento da janela
-    window.addEventListener('resize', updateMenuVisibility);
-
-    // Cleanup do evento quando o componente é desmontado
-    return () => {
-      clearInterval(interval);
-      window.removeEventListener('resize', updateMenuVisibility);
+    // Função para obter todos os jogos
+    const verificarUsuarioAtivo = async () => {
+      try {
+        const response = await fetch('http://localhost:3000/verificarUsuario');
+        const data = await response.json();
+        setActiveUser(data);
+        console.log(data)
+      } catch (error) {
+        console.error('Erro ao obter jogos:', error.message);
+      }
     };
-  }, []); // Certifique-se de fornecer um array vazio para evitar efeitos colaterais
+
+    verificarUsuarioAtivo();
+  }, []);
 
   const createMenuItem = (text, href) => (
     <li>
@@ -56,11 +46,34 @@ const Header = () => {
     </li>
   );
 
+   const handleLogout = async () => {
+    try {
+      const response = await fetch('http://localhost:3000/logout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        // Atualizar o estado local ou redirecionar para a página de login
+        console.log('Logout realizado com sucesso!');
+        // Exemplo de redirecionamento para a página de login (ajuste conforme sua estrutura de rotas)
+        window.location.href = '/';
+        activeUser = null
+      } else {
+        console.error('Erro ao realizar logout');
+      }
+    } catch (error) {
+      console.error('Erro ao realizar logout:', error.message);
+    }
+  };
+
   return (
     <header>
       <nav>
         {/* Logo */}
-        <a href="/home">
+        <a href="/">
           <img src="../../public/GOTY-logo.svg" alt="Logo do site Game Of The Year" />
         </a>
 
@@ -68,8 +81,8 @@ const Header = () => {
         <ul className="menu-nav">
           {createMenuItem('Home', '/')}
           {createMenuItem('Jogos', '/jogos')}
-          {createMenuItem('Pesquisar', '/src/pages/pesquisa.html')}
-          {createMenuItem('CRUD', '/crudJogos')}
+          {createMenuItem('Pesquisar', '/jogos/pesquisa')}
+          {createMenuItem('CRUD', '/jogos/lista')}
         </ul>
 
         {/* Menu */}
@@ -81,9 +94,10 @@ const Header = () => {
         <ul className="user-log">
           {activeUser ? (
             <>
-              <li>{`Bem-vindo, ${activeUser}`}</li>
+            
+              <li><a href="/user/:UsuarioNome">{`Bem-vindo`}</a></li>
               <li className="barra-ul">|</li>
-              <li>Sair</li>
+              <li><a onClick={handleLogout}>Sair</a></li>
             </>
           ) : (
             <>

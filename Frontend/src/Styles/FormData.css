@@ -64,6 +64,7 @@ textarea {
 }
 
 button {
+    margin-top: 0.5rem;
     width: 35vw;
     height: 20vh;
     border: none;
@@ -75,10 +76,12 @@ button {
 
 .imagem-button {
     height: 35vh;
+    width: 35vw;
     margin-bottom: 0.5rem;
     background-color: rgb(240, 240, 240);
     color: rgb(107, 107, 107);
     border: 1px dashed black;
+    margin: 0 auto;
 }
 
 .voltar {

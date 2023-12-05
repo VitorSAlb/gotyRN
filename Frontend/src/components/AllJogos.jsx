@@ -39,7 +39,7 @@ const AllJogos = () => {
           <div className="photo-card">
             <img
               style={{ height: '202px', width: '155px' }}
-              src={item.ImagemJogo ? item.ImagemJogo : `../img/capaGames/${getFormattedGameName(item.JogosNome)}.svg`}
+              src={`../public/img/capaGames/${item.ImagemJogo}.svg`}
               alt={`Capa do jogo ${item.JogosNome}`}
             />
           </div>
