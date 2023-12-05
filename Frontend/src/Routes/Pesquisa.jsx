@@ -82,10 +82,7 @@ function Pesquisa() {
             <hr />
           </div>
           
-          {/* Adicione um input controlado para o termo de pesquisa */}
-          
 
-          {/* Renderizar a seção com base no estado ativo */}
           {activeSection === 'jogos' ? <RenderCards data={resultados} /> : <TrSection />}
         </div>
       </main>
@@ -99,10 +96,41 @@ const RenderCards = ({ data }) => {
   return (
     <div className="nr-section" id="newRelease">
       {data.map((item) => (
-        <div key={item.JogosID} className="nr-card" onClick={() => cardClick(item.JogosID)}>
-          {/* Conteúdo do card */}
+        <Link key={item.JogosID} to={`/teste3/${item.JogosID}`} className="nr-card">
+        <div className="photo-card">
+          <img
+            style={{ height: '202px', width: '155px' }}
+            src={item.ImagemJogo ? `../img/capaGames/${item.ImagemJogo}.svg` : item.ImagemJogo }
+            alt={`Capa do jogo ${item.JogosNome}`}
+          />
         </div>
-      ))}
+        <div className="info-card">
+          <div className="name-card">
+            <h1>{item.JogosNome}</h1>
+            <p>{getFormattedDate(item.DataDeLancamento)}</p>
+          </div>
+          <div className="publisher-card">
+            <p>{item.PlataformaNome}</p>
+          </div>
+          <div className="score">
+            <h1>{item.Nota}</h1>
+          </div>
+          <div className="progress-container">
+            <div
+              className={`progress-bar ${
+                item.Nota < 50
+                  ? 'progress-bar-red'
+                  : item.Nota < 80
+                  ? 'progress-bar-yellow'
+                  : 'progress-bar-green'
+              }`}
+              style={{ width: `${item.Nota}%` }}
+              id="progress"
+            ></div>
+          </div>
+        </div>
+        </Link>
+    ))}
     </div>
   );
 };

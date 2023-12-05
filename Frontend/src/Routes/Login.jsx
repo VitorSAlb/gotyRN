@@ -31,7 +31,7 @@ function LoginForm() {
               const data = await response.json();
               console.log(data.mensagem);
               alert(data.mensagem);
-              // Implemente a lógica para redirecionar ou manipular a resposta do login
+              
             } else {
               console.error('Erro ao realizar login:', response.statusText);
               alert('Erro ao realizar login:', response.statusText);

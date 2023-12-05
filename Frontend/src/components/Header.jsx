@@ -11,7 +11,6 @@ const Header = () => {
   };
 
   useEffect(() => {
-    // Função para obter todos os jogos
     const verificarUsuarioAtivo = async () => {
       try {
         const response = await fetch('http://localhost:3000/verificarUsuario');
@@ -42,10 +41,7 @@ const Header = () => {
       });
 
       if (response.ok) {
-        // Atualizar o estado local ou redirecionar para a página de login
         console.log('Logout realizado com sucesso!');
-        // Exemplo de redirecionamento para a página de login (ajuste conforme sua estrutura de rotas)
-        window.location.href = '/';
       } else {
         console.error('Erro ao realizar logout');
       }
@@ -57,12 +53,10 @@ const Header = () => {
   return (
     <header>
       <nav>
-        {/* Logo */}
         <a href="/">
           <img src="../../public/GOTY-logo.svg" alt="Logo do site Game Of The Year" />
         </a>
 
-        {/* Lista de navegação */}
         <ul className="menu-nav">
           {createMenuItem('Home', '/')}
           {createMenuItem('Jogos', '/jogos')}
@@ -70,12 +64,10 @@ const Header = () => {
           {createMenuItem('CRUD', '/jogos/lista')}
         </ul>
 
-        {/* Menu */}
         <div className="menu-icon" id="menuNav" onClick={toggleMenu}>
           ☰
         </div>
 
-        {/* Lista de usuário */}
         <ul className="user-log">
           {activeUser ? (
             <>

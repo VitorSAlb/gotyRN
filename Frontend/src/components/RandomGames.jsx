@@ -31,12 +31,12 @@ const RandomGames = () => {
   };
 
   const getFormattedGameName = (JogosNome) => {
-    // Substituir espaços por "-" e converter para minúsculas
+
     return JogosNome.toLowerCase().replace(/\s+/g, '-');
   };
 
   const getFormattedDate = (date) => {
-    return format(new Date(date), 'dd/MM/yyyy'); // Formatar a data
+    return format(new Date(date), 'dd/MM/yyyy');
   };
 
   return (

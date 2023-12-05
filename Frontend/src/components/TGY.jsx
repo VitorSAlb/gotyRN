@@ -27,7 +27,6 @@ const NrSection = () => {
   }, []);
 
   const cardClick = (JogosID) => {
-    // Handle card click logic here
     console.log(`Card clicked with JogosID: ${JogosID}`);
   };
 
@@ -47,7 +46,7 @@ const NrSection = () => {
       }
     }
   
-    return ''; // ou outra ação apropriada se a data não estiver presente ou for inválida
+    return '';
   };
   
 

@@ -14,7 +14,6 @@ const Cardao = () => {
         const jogosEmbaralhados = data.sort(() => Math.random() - 0.5);
 
 
-         // Limitar a lista para apenas os primeiros 8 jogos
          const jogosLimitados = jogosEmbaralhados.slice(0, 1);
 
         setJogos(jogosLimitados);
@@ -31,12 +30,11 @@ const Cardao = () => {
   };
 
   const getFormattedGameName = (JogosNome) => {
-    // Substituir espaços por "-" e converter para minúsculas
     return JogosNome.toLowerCase().replace(/\s+/g, '-');
   };
 
   const getFormattedDate = (date) => {
-    return format(new Date(date), 'dd/MM/yyyy'); // Formatar a data
+    return format(new Date(date), 'dd/MM/yyyy'); 
   };
 
 

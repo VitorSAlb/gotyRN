@@ -27,7 +27,7 @@ const TrSection = () => {
   }, []);
 
   const cardClick = (JogosID) => {
-    // Handle card click logic here
+
     console.log(`Card clicked with JogosID: ${JogosID}`);
   };
 

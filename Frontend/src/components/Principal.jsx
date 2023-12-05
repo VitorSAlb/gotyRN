@@ -30,7 +30,7 @@ const Principal = () => {
     }, []);
 
     const getFormattedGameName = (JogosNome) => {
-        // Substituir espaços por "-" e converter para minúsculas
+
         return JogosNome.toLowerCase().replace(/\s+/g, '-');
       };
     
@@ -39,14 +39,14 @@ const Principal = () => {
           const parsedDate = new Date(date);
       
           if (!isNaN(parsedDate.getTime())) {
-            // Se a data for válida, formate-a
+
             return format(parsedDate, 'dd/MM/yyyy');
           } else {
             console.error('Data inválida:', date);
           }
         }
       
-        return '00/00/0000'; // ou outra ação apropriada se a data não estiver presente ou for inválida
+        return '00/00/0000'; 
       };
 
 

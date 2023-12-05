@@ -29,7 +29,7 @@ const JogoDetalhes = ({ match }) => {
       <h2>{jogo.JogosNome}</h2>
       <p>Plataforma: {jogo.Plataforma.PlataformaNome}</p>
       <p>Descrição: {jogo.Descricao}</p>
-      {/* Adicione aqui mais informações que deseja exibir */}
+
     </div>
   );
 };
