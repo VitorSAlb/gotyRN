@@ -6,6 +6,7 @@ import RG from '../components/RandomGames';
 import BannerJP from '../components/bannerJP';
 
 import "../Styles/base.css"
+import "../Styles/gamePage.css"
 
 function App() {
   return (
