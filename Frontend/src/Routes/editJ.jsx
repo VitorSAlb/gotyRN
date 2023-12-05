@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useParams, Link } from 'react-router-dom';
 
 import Header from '../Components/Header';
 import Footer from '../Components/Footer';
@@ -8,6 +9,7 @@ import "../Styles/FormData.css";
 import "../Styles/forms.css";
 
 const EditJ = () => {
+  const {id} = useParams();
   const [novosDados, setNovosDados] = useState({
     JogosNome: "",
     ImagemJogo: "", 
@@ -22,22 +24,24 @@ const EditJ = () => {
   useEffect(() => {
     const fetchJogoDetails = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/api/jogos/${jogosId}`);
+        const response = await fetch(`http://localhost:3000/api/jogos/${id}`);
         if (response.ok) {
           const jogoDetalhes = await response.json();
           setJogoEditado(jogoDetalhes);
         } else {
           console.error('Erro ao obter detalhes do jogo:', response.statusText);
+          alert('Erro ao obter detalhes do jogo:', response.statusText);
         }
       } catch (error) {
         console.error('Erro ao obter detalhes do jogo:', error.message);
+        alert('Erro ao obter detalhes do jogo:', error.message);
       }
     };
   
-    if (jogosId) {
+    if (id) {
       fetchJogoDetails();
     }
-  }, [jogosId]);
+  }, [id]);
 
   useEffect(() => {
     if (jogoEditado) {
@@ -57,32 +61,32 @@ const EditJ = () => {
     setNovosDados({ ...novosDados, [name]: value });
   };
 
-  const handleImageChange = async (e) => {
-    const file = e.target.files[0];
+  // const handleImageChange = async (e) => {
+  //   const file = e.target.files[0];
   
-    if (file && file.type === 'image/svg+xml') {
-      try {
-        const formData = new FormData();
-        formData.append('ImagemJogo', file);
+  //   if (file && file.type === 'image/svg+xml') {
+  //     try {
+  //       const formData = new FormData();
+  //       formData.append('ImagemJogo', file);
   
-        const response = await fetch('http://localhost:3000/api/jogos', {
-          method: 'POST',
-          body: formData,
-        });
+  //       const response = await fetch('http://localhost:3000/api/jogos', {
+  //         method: 'POST',
+  //         body: formData,
+  //       });
   
-        if (response.ok) {
-          const imagePath = await response.json();
-          setNovoJogo({ ...novosDados, ImagemJogo: imagePath });
-        } else {
-          console.error('Erro ao fazer upload da imagem:', response.statusText);
-        }
-      } catch (error) {
-        console.error('Erro ao fazer upload da imagem:', error.message);
-      }
-    } else {
-      console.error('Por favor, selecione um arquivo SVG.');
-    }
-  };
+  //       if (response.ok) {
+  //         const imagePath = await response.json();
+  //         setNovoJogo({ ...novosDados, ImagemJogo: imagePath });
+  //       } else {
+  //         console.error('Erro ao fazer upload da imagem:', response.statusText);
+  //       }
+  //     } catch (error) {
+  //       console.error('Erro ao fazer upload da imagem:', error.message);
+  //     }
+  //   } else {
+  //     console.error('Por favor, selecione um arquivo SVG.');
+  //   }
+  // };
   
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -148,16 +152,16 @@ const EditJ = () => {
                       </div>
                     </div>  
                     <div className='right-column'>
-                        <input
-                          type="file"
-                          accept="image/*"
-                          onChange={handleImageChange}
-                          style={{ display: 'none' }}
-                          id="imageInput"
-                        />
-                        <label htmlFor="imageInput" className='imagem-button'>
-                          Adicione a imagem do seu jogo em .svg
-                        </label>
+                    <div className='form-group'>
+                          <input
+                            type="text"
+                            name="ImagemJogo"
+                            value={novosDados.ImagemJogo}
+                            placeholder='Nome da sua imagem sem .svg'
+                            onChange={handleInputChange}
+                          />
+                        </div>
+                        <p className='obs'>OBS: coloque a imagem na /public/img/capaGames/<br/> e acima escreva so o nome da sua imagem svg</p>
                         <button type="submit">Editar Jogo</button>
                     </div>    
                     

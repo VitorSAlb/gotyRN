@@ -9,7 +9,7 @@ const Banner = ({ jogo }) => {
   const publisher = "Microsoft";
   const genero = "RPG | Aventura";
   const description = "Jogo com mais de mil planetas exploráveis";
-  const progress = 60;
+  const progress = 58;
 
   const renderProgressColor = (progress) => {
     if (progress < 50) {

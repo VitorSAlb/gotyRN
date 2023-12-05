@@ -79,16 +79,18 @@ const Header = () => {
         <ul className="user-log">
           {activeUser ? (
             <>
+            {createMenuItem('Registre-se', '/registro')}
+            <li className="barra-ul">|</li>
+            {createMenuItem('Login', '/login')}
+          </>
             
-              <li><a href="/user/:UsuarioNome">{`Bem-vindo`}</a></li>
-              <li className="barra-ul">|</li>
-              <li><a onClick={handleLogout}>Sair</a></li>
-            </>
           ) : (
+          
             <>
-              {createMenuItem('Registre-se', '/registro')}
-              <li className="barra-ul">|</li>
-              {createMenuItem('Login', '/login')}
+                        
+            <li><a href="/user/:UsuarioNome">{`Bem-vindo`}</a></li>
+            <li className="barra-ul">|</li>
+            <li><a onClick={handleLogout}>Sair</a></li>
             </>
           )}
         </ul>

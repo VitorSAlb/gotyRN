@@ -9,7 +9,7 @@ import "../Styles/forms.css"
 function Registro() {
   const [novoUsuario, setNovoUsuario] = useState({
     UsuarioNome: "",
-    Username: "", // Alterado o nome do campo para corresponder ao estado
+    Username: "",
     UsuarioEmail: "",
     UsuarioSenha: "",
     DataDeNascimento: "",
@@ -21,7 +21,14 @@ function Registro() {
   };
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
+
+    // Verifica se algum campo está vazio
+    const camposVazios = Object.values(novoUsuario).some(value => value === "");
+    if (camposVazios) {
+      alert('Por favor, preencha todos os campos antes de enviar o formulário.');
+      return;
+    }
 
     try {
       const response = await fetch('http://localhost:3000/api/usuarios', {
@@ -34,11 +41,14 @@ function Registro() {
 
       if (response.ok) {
         console.log('Usuario adicionado com sucesso!');
+        alert('Usuario adicionado com sucesso!');
       } else {
         console.error('Erro ao adicionar o Usuario:', response.statusText);
+        alert('Erro ao adicionar o Usuario:', response.statusText);
       }
     } catch (error) {
       console.error('Erro ao adicionar o Usuario:', error.message);
+      alert('Erro ao adicionar o Usuario:', error.message);
     }
   };
 

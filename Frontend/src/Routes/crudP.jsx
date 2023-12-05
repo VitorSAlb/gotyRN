@@ -32,11 +32,14 @@ const CrudP = () => {
 
       if (response.ok) {
         console.log('Plataforma adicionada com sucesso!');
+        alert('Plataforma adicionada com sucesso!');
       } else {
         console.error('Erro ao adicionar a plataforma:', response.statusText);
+        alert('Erro ao adicionar a plataforma:', response.statusText);
       }
     } catch (error) {
       console.error('Erro ao adicionar a plataforma:', error.message);
+      alert('Erro ao adicionar a plataforma:', error.message);
     }
   };
 
