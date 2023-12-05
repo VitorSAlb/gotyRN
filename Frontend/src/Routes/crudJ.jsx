@@ -121,16 +121,16 @@ const Teste = () => {
                       </div>
                     </div>  
                     <div className='right-column'>
-                        <input
-                          type="file"
-                          accept="image/*"
-                          onChange={handleImageChange}
-                          style={{ display: 'none' }}
-                          id="imageInput"
-                        />
-                        <label htmlFor="imageInput" className='imagem-button'>
-                          Adicione a imagem do seu jogo em .svg
-                        </label>
+                    <div className='form-group'>
+                          <input
+                            type="text"
+                            name="ImagemJogo"
+                            value={novoJogo.ImagemJogo}
+                            placeholder='Nome da sua imagem sem .svg'
+                            onChange={handleInputChange}
+                          />
+                        </div>
+                        <p className='obs'>OBS: coloque a imagem na /public/img/capaGames/<br/> e acima escreva so o nome da sua imagem svg</p>
                         <button type="submit">Adicionar Jogo</button>
                     </div>    
                     

@@ -10,20 +10,6 @@ const Header = () => {
     setMenuVisibility(!isMenuVisible);
   };
 
-  const updateMenuVisibility = () => {
-    const listaNav = document.querySelector('.menu-nav');
-    const listaUser = document.querySelector('.user-log');
-
-    // Verifica o tamanho da tela e atualiza a visibilidade do menu
-    if (window.innerWidth <= 1200) {
-      listaNav.style.display = 'none';
-      listaUser.style.display = 'none';
-    } else {
-      listaNav.style.display = 'flex';
-      listaUser.style.display = 'flex';
-    }
-  };
-
   useEffect(() => {
     // Função para obter todos os jogos
     const verificarUsuarioAtivo = async () => {
@@ -60,7 +46,6 @@ const Header = () => {
         console.log('Logout realizado com sucesso!');
         // Exemplo de redirecionamento para a página de login (ajuste conforme sua estrutura de rotas)
         window.location.href = '/';
-        activeUser = null
       } else {
         console.error('Erro ao realizar logout');
       }

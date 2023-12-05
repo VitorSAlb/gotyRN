@@ -22,7 +22,7 @@ const Banner = ({ jogo }) => {
   };
 
   // URL para redirecionamento (substitua pelo seu URL desejado)
-  const redirectUrl = "/jogos/jogo/11";
+  const redirectUrl = "/teste3/1";
 
   return (
     <a href={redirectUrl} target="_blank" rel="noopener noreferrer" className="main-banner">

@@ -77,3 +77,9 @@ label a {
 label a:hover {
     opacity: 0.7;
 }
+
+.obs {
+    border: 1px solid black;
+    width: 35vw;
+    margin: 0 auto;
+}
