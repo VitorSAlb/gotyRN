@@ -5,8 +5,10 @@ import App from './App'
 import Jogos from './Routes/Jogos'
 import Login from './Routes/Login'
 import Registro from './Routes/Registro'
-import CrudJogos from './Routes/CrudJogos'
 import Teste from './Routes/Teste'
+
+import "./Styles/reset.css"
+import "./Styles/base.css"
 
 
 import {createBrowserRouter, RouterProvider} from 'react-router-dom'
@@ -33,10 +35,6 @@ const router = createBrowserRouter([
   },
   {
     path: "/crudJogos",
-    element: <CrudJogos />,
-  },
-  {
-    path: "/teste",
     element: <Teste />,
   },
   {
