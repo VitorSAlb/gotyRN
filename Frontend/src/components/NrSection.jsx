@@ -1,16 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import "../Styles/cards.css"
+import { format } from 'date-fns';
+import "../Styles/cards.css";
 
 const NrSection = () => {
   const [jogos, setJogos] = useState([]);
 
   useEffect(() => {
-    // Função para obter todos os jogos
     const obterTodosOsJogos = async () => {
       try {
         const response = await fetch('http://localhost:3000/obterTodosOsJogos');
         const data = await response.json();
-        setJogos(data);
+
+         // Ordenar os jogos por data em ordem decrescente
+         const jogosOrdenados = data.sort((a, b) => new Date(b.DataDeLancamento) - new Date(a.DataDeLancamento));
+
+         // Limitar a lista para apenas os primeiros 8 jogos
+         const jogosLimitados = jogosOrdenados.slice(0, 8);
+
+        setJogos(jogosLimitados);
       } catch (error) {
         console.error('Erro ao obter jogos:', error.message);
       }
@@ -20,8 +27,16 @@ const NrSection = () => {
   }, []);
 
   const cardClick = (JogosID) => {
-    // Handle card click logic here
     console.log(`Card clicked with JogosID: ${JogosID}`);
+  };
+
+  const getFormattedGameName = (JogosNome) => {
+    // Substituir espaços por "-" e converter para minúsculas
+    return JogosNome.toLowerCase().replace(/\s+/g, '-');
+  };
+
+  const getFormattedDate = (date) => {
+    return format(new Date(date), 'dd/MM/yyyy'); // Formatar a data
   };
 
   return (
@@ -31,14 +46,14 @@ const NrSection = () => {
           <div className="photo-card">
             <img
               style={{ height: '202px', width: '155px' }}
-              src={`../img/capaGames/${item.ImagemJogo}.svg`}
+              src={item.ImagemJogo ? item.ImagemJogo : `../img/capaGames/${getFormattedGameName(item.JogosNome)}.svg`}
               alt={`Capa do jogo ${item.JogosNome}`}
             />
           </div>
           <div className="info-card">
             <div className="name-card">
               <h1>{item.JogosNome}</h1>
-              <p>{item.DataDeLancamento}</p>
+              <p>{getFormattedDate(item.DataDeLancamento)}</p>
             </div>
             <div className="publisher-card">
               <p>{item.PlataformaNome}</p>
@@ -66,4 +81,4 @@ const NrSection = () => {
   );
 };
 
-export default NrSection
+export default NrSection;

@@ -1,13 +1,13 @@
 .tr-section {
     display: flex;
     background-color: #ffffff;
-    width: 100%;
+    width: 60vw;
     height: fit-content;
-    padding: 1.5rem 15rem;
     font-family: 'Roboto', Times, serif;
     font-weight: 100;
     font-size: 1rem;
     cursor: pointer;
+    margin: 0 auto;
 }
 
 .rankNumber {
@@ -49,7 +49,7 @@
 
 .tr-name-card {
     display: flex;
-    align-items: center;
+    align-items: baseline;
     width: 100%;
     justify-content: space-between;
     height: fit-content;
@@ -57,7 +57,7 @@
 
 .tr-name-card h1 {
     font-size: 3rem;
-    width: 80%; /* Largura máxima para o contêiner do título */
+    width: 70%; /* Largura máxima para o contêiner do título */
     text-overflow: ellipsis; 
     justify-self: left;
     overflow: hidden;
@@ -141,7 +141,7 @@
 }   
 
 /* Adicionado estilo para a versão quando a tela é até 1200px de largura */
-@media only screen and (max-width: 1200px) {
+@media only screen and (max-width: 1400px) {
     .tr-section {
         padding: 1.5rem 5rem; /* Reduzido o espaçamento nas laterais */
     }
@@ -205,7 +205,7 @@
     }
 }
 
-@media only screen and (max-width: 1200px) {
+/* @media only screen and (max-width: 700px) {
     .tr-section {
         padding: 1.5rem 0;
         width: 430%;
@@ -222,7 +222,7 @@
     .tr-name-card h1 {
         font-size: 2rem;
         width: 100%; /* Largura máxima para o contêiner do título */
-        text-overflow: ellipsis; 
+        /* text-overflow: ellipsis; 
         justify-self: left;
         overflow: hidden;
         white-space: nowrap;
@@ -230,10 +230,6 @@
 
     .tr-name-card h3 {
         display: none;
-    }
-
-    .tr-info-card {
-        width: 200px;
     }
 
     .tr-genero-card h3,
@@ -247,4 +243,4 @@
     }
 
 
-}
+} */ 

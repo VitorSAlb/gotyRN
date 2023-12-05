@@ -13,7 +13,7 @@ const Teste = () => {
     ImagemJogo: "", // Alterado o nome do campo para corresponder ao estado
     PlataformaNome: "",
     GeneroNome: "",
-    Decricao: "",
+    Descricao: "",
     DataDeLancamento: "",
   });
 
@@ -21,6 +21,37 @@ const Teste = () => {
     const { name, value } = e.target;
     setNovoJogo({ ...novoJogo, [name]: value });
   };
+
+  const handleImageChange = async (e) => {
+    const file = e.target.files[0];
+  
+    if (file && file.type === 'image/svg+xml') {
+      try {
+        const formData = new FormData();
+        formData.append('ImagemJogo', file);
+  
+        const response = await fetch('http://localhost:3000/api/upload-imagem', {
+          method: 'POST',
+          body: formData,
+        });
+  
+        if (response.ok) {
+          const imagePath = await response.json();
+          setNovoJogo({ ...novoJogo, ImagemJogo: imagePath });
+        } else {
+          console.error('Erro ao fazer upload da imagem:', response.statusText);
+          alert('Erro ao fazer upload da imagem:', response.statusText);
+        }
+      } catch (error) {
+        console.error('Erro ao fazer upload da imagem:', error.message);
+        alert('Erro ao fazer upload da imagem:', error.message);
+      }
+    } else {
+      console.error('Por favor, selecione um arquivo SVG.');
+      alert('Por favor, selecione um arquivo SVG.');
+    }
+  };
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -36,11 +67,15 @@ const Teste = () => {
 
       if (response.ok) {
         console.log('Jogo adicionado com sucesso!');
+        alert('Jogo adicionado com sucesso!');
+        
       } else {
         console.error('Erro ao adicionar o jogo:', response.statusText);
+        alert('Erro ao adicionar o jogo:', response.statusText);
       }
     } catch (error) {
       console.error('Erro ao adicionar o jogo:', error.message);
+      alert('Erro ao adicionar o jogo:', error.message);
     }
   };
 
@@ -82,11 +117,20 @@ const Teste = () => {
                         <input type="date" name="DataDeLancamento" value={novoJogo.DataDeLancamento} onChange={handleInputChange} />
                       </div>
                       <div className='form-group'>  
-                        <textarea type="text" className='descricao' name="Decricao" value={novoJogo.Decricao} placeholder='Coloque uma Descrição para o jogo' onChange={handleInputChange} />
+                        <textarea type="text" className='descricao' name="Descricao" value={novoJogo.Descricao} placeholder='Coloque uma Descrição para o jogo' onChange={handleInputChange} />
                       </div>
                     </div>  
                     <div className='right-column'>
-                        <button type="submit" className='imagem-button' name="ImagemJogo" value={novoJogo.ImagemJogo} onChange={handleInputChange}>Adicione a imagem do seu jogo</button>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={handleImageChange}
+                          style={{ display: 'none' }}
+                          id="imageInput"
+                        />
+                        <label htmlFor="imageInput" className='imagem-button'>
+                          Adicione a imagem do seu jogo em .svg
+                        </label>
                         <button type="submit">Adicionar Jogo</button>
                     </div>    
                     

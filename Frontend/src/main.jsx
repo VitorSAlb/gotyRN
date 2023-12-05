@@ -1,11 +1,15 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 
+
 import App from './App'
 import Jogos from './Routes/Jogos'
+import JP from './Routes/JogoID'
 import Login from './Routes/Login'
 import Registro from './Routes/Registro'
 import CrudJ from './Routes/crudJ'
+import CrudP from './Routes/crudP'
+import EditJ from './Routes/editJ'
 
 import "./Styles/reset.css"
 import "./Styles/base.css"
@@ -38,13 +42,21 @@ const router = createBrowserRouter([
     element: <CrudJ />,
   },
   {
+    path: "/crudPlataformas",
+    element: <CrudP />,
+  },
+  {
     path: "/jogos",
     element: <Jogos />
   },
-  // {
-  //   path: "/jogos/jogo:id",
-  //   element: <JogoID />
-  // },
+  {
+    path: "/jogos/jogo/:id",
+    element: <JP />
+  },
+  {
+    path: "/EditJ/:id",
+    element: <EditJ />
+  },
   // {
   //   path: "/jogos/pesquisa",
   //   element: <Pesquisa />

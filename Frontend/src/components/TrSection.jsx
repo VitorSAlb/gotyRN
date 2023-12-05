@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { format } from 'date-fns';
 import "../Styles/cards.css"
 
 const TrSection = () => {
@@ -10,7 +11,12 @@ const TrSection = () => {
       try {
         const response = await fetch('http://localhost:3000/obterTodosOsJogos');
         const data = await response.json();
-        setJogos(data);
+
+        const jogosOrdenados = data.sort((a, b) => b.Nota - a.Nota);
+
+        const jogosLimitados = jogosOrdenados.slice(0, 10);
+
+        setJogos(jogosLimitados);
       } catch (error) {
         console.error('Erro ao obter jogos:', error.message);
       }
@@ -18,6 +24,19 @@ const TrSection = () => {
 
     obterTodosOsJogos();
   }, []);
+
+  const cardClick = (JogosID) => {
+    // Handle card click logic here
+    console.log(`Card clicked with JogosID: ${JogosID}`);
+  };
+
+  const getFormattedGamesName = (JogosNome) => {
+    return JogosNome.toLowerCase().replace(/\s+/g,'-');
+  }
+
+  const getFormattedDate = (date) => {
+    return format(new Date(date), 'dd/MM/yyyy');
+  }
 
   return (
     <>
@@ -28,7 +47,7 @@ const TrSection = () => {
             <div className='tr-photo-card'>
               <img
                 style={{ height: '404px', width: '310px' }}
-                src={`../img/capaGames/${item.ImagemJogo}.svg`}
+                src={item.ImagemJogo ? item.ImagemJogo : `../img/capaGames/${getFormattedGamesName(item.JogosNome)}.svg`}
                 alt={`Capa do jogo ${item.JogosNome}`}
               />
             </div>
@@ -36,7 +55,7 @@ const TrSection = () => {
             <div className="tr-info-card">
               <div className="tr-name-card">
                 <h1>{item.JogosNome}</h1>
-                <h3>{item.DataDeLancamento}</h3>
+                <h3>{getFormattedDate(item.DataDeLancamento)}</h3>
               </div>
               <div className="tr-publisher-card">
                 <h3><strong>Plataforma:</strong>{item.PlataformaNome}</h3>

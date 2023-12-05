@@ -49,11 +49,7 @@ textarea {
 }
 
 .descricao {
-    height: 23rem;
-}
-
-#description {
-    height: 200px;
+    height: 13.5rem;
 }
 
 .left-column {
@@ -65,7 +61,6 @@ textarea {
 .right-column {
     width: fit-content;
     flex: 2;
-    padding-left: 6rem;
 }
 
 button {
@@ -90,18 +85,4 @@ button {
     font-size: xx-large;
     margin-left: 2rem;
     padding-top: 1rem;
-}
-
-
-
-#drop-area {
-    border: 2px dashed #ccc;
-    text-align: center;
-    cursor: pointer;
-    background-color: #FFF;
-    height: 275px;
-}
-
-#drop-area.dragover {
-    background-color: #f0f0f0;
 }

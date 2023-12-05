@@ -1,88 +1,86 @@
 import React, { useEffect, useState } from 'react';
-import '../Styles/cardao.css';
+import { format } from 'date-fns';
+import '../Styles/cardao.css'
 
 const Cardao = () => {
-  const [randomGame, setRandomGame] = useState(null);
-
-  const gerarIdAleatoria = () => {
-    const numeroAleatorio = Math.floor(Math.random() * 2) + 1;
-    return 'jogo_' + numeroAleatorio;
-  };
+  const [jogos, setJogos] = useState([]);
 
   useEffect(() => {
-    const fetchRandomGame = async () => {
+    const obterTodosOsJogos = async () => {
       try {
-        // Gere uma ID aleatória
-        const idAleatoria = gerarIdAleatoria();
-
-        // Fetch logic to get a random game based on the generated ID
-        const response = await fetch(`http://localhost:3000/obterJogoPorId?id=${idAleatoria}`);
+        const response = await fetch('http://localhost:3000/obterTodosOsJogos');
         const data = await response.json();
 
-        // Set the random game in the state
-        setRandomGame(data);
+        const jogosEmbaralhados = data.sort(() => Math.random() - 0.5);
+
+
+         // Limitar a lista para apenas os primeiros 8 jogos
+         const jogosLimitados = jogosEmbaralhados.slice(0, 1);
+
+        setJogos(jogosLimitados);
       } catch (error) {
-        console.error('Error fetching random game:', error);
+        console.error('Erro ao obter jogos:', error.message);
       }
     };
 
-    // Chame a função para buscar um jogo aleatório quando o componente montar
-    fetchRandomGame();
-  }, []); // O array de dependências vazio garante que esse efeito seja executado apenas uma vez quando o componente montar
+    obterTodosOsJogos();
+  }, []);
 
-  const renderProgressColor = (progress) => {
-    if (progress < 50) {
-      return 'progress-bar-red';
-    } else if (progress < 80) {
-      return 'progress-bar-yellow';
-    } else {
-      return 'progress-bar-green';
-    }
+  const cardClick = (JogosID) => {
+    console.log(`Card clicked with JogosID: ${JogosID}`);
   };
 
-  const cardClick = (id) => {
-    const idjogo = id;
-    if (idjogo) {
-      window.location.href = `/src/pages/jogo.html?id=${id}`;
-    } else {
-      console.log('Jogo não encontrado.');
-    }
+  const getFormattedGameName = (JogosNome) => {
+    // Substituir espaços por "-" e converter para minúsculas
+    return JogosNome.toLowerCase().replace(/\s+/g, '-');
   };
 
-  return (
-    <div className="cardao-section">
-      {randomGame && (
-        <div key={randomGame.JogosID} className="cardao" onClick={() => cardClick(randomGame.JogosID)}>
-          <div className="photo-cardao">
+  const getFormattedDate = (date) => {
+    return format(new Date(date), 'dd/MM/yyyy'); // Formatar a data
+  };
+
+
+    return (
+      <div className='cardao-section'>
+          {jogos.map((item) =>(
+            <div className="cardao" key={item.JogosID} onClick={() => cardClick(item.JogosID)}>
+            <div className="photo-cardao">
             <img
-              style={{ height: '404px', width: '310px' }}
-              src={`../img/capaGames/${randomGame.imagesLink}.svg`}
-              alt={`Capa do jogo ${randomGame.title}`}
+                style={{ height: '404px', width: '310px' }}
+                src={item.ImagemJogo ? item.ImagemJogo : `../img/capaGames/${getFormattedGameName(item.JogosNome)}.svg`}
+                alt={`Capa do jogo ${item.JogosNome}`}
             />
-          </div>
-          <div className="info-cardao">
+            </div>
+            <div className="info-cardao">
             <div className="name-cardao">
-              <h1>{randomGame.JogosNome}</h1>
-              <p>{randomGame.DataDeLancamento}</p>
+                <h1 style={{ fontSize: '2rem' }}>{item.JogosNome}</h1>
+                <p>{getFormattedDate(item.DataDeLancamento)}</p>
             </div>
             <div className="publisher-cardao">
-              <p>{randomGame.PlataformaNome}</p>
+            <p>{item.PlataformaNome}</p>
             </div>
             <div className="score">
-              <h1>{randomGame.Nota}</h1>
+                <h1 style={{ margin: '0 auto', fontSize: '2rem' }}>{item.Nota}</h1>
+                <div className="progress-container">
+                <div
+                    className={`progress-bar ${
+                      item.Nota < 50
+                        ? 'progress-bar-red'
+                        : item.Nota < 80
+                        ? 'progress-bar-yellow'
+                        : 'progress-bar-green'
+                    }`}
+                    style={{ width: `${item.Nota}%` }}
+                    id="progress"
+                ></div>
+                </div>
             </div>
-            <div className="progress-container">
-              <div
-                className={`progress-bar ${renderProgressColor(randomGame.Nota)}`}
-                style={{ width: `${randomGame.Nota}%` }}
-                id="progress"
-              ></div>
             </div>
-          </div>
         </div>
-      )}
-    </div>
-  );
+          ))}
+      </div>
+        
+    );
 };
 
 export default Cardao;
