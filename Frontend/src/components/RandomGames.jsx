@@ -28,6 +28,9 @@ const RandomGames = () => {
 
   const cardClick = (JogosID) => {
     console.log(`Card clicked with JogosID: ${JogosID}`);
+    const newURL = `/teste3/${JogosID}`;
+    window.location.href = newURL;
+
   };
 
   const getFormattedGameName = (JogosNome) => {
@@ -42,7 +45,7 @@ const RandomGames = () => {
   return (
     <div className="nr-section" id="newRelease">
       {jogos.map((item) => (
-        <Link key={item.JogosID} to={`/jogos/jogo/${item.JogosID}`} className="nr-card">
+        <Link key={item.JogosID} to={`/teste3/${item.JogosID}`} onClick={() => cardClick(item.JogosID)} className="nr-card">
           <div className="photo-card">
             <img
               style={{ height: '202px', width: '155px' }}

@@ -16,31 +16,36 @@ function LoginForm() {
         const [UsuarioSenha, setUsuarioSenha] = useState('');
       
         const handleSubmit = async (e) => {
-          e.preventDefault();
-      
-          try {
-            const response = await fetch('http://localhost:3000/login', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({ UsuarioEmail, UsuarioSenha }),
-            });
-      
-            if (response.ok) {
-              const data = await response.json();
-              console.log(data.mensagem);
-              alert(data.mensagem);
-              // Implemente a lógica para redirecionar ou manipular a resposta do login
-            } else {
-              console.error('Erro ao realizar login:', response.statusText);
-              alert('Erro ao realizar login:', response.statusText);
+            e.preventDefault();
+          
+            try {
+              const response = await fetch('http://localhost:3000/login', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ UsuarioEmail, UsuarioSenha }),
+              });
+          
+              if (response.ok) {
+                const data = await response.json();
+                console.log(data.mensagem);
+                alert(data.mensagem);
+                
+                // Atualizar o estado no Header após o login bem-sucedido
+                setActiveUser(true);
+                
+                // Implemente a lógica para redirecionar ou manipular a resposta do login
+              } else {
+                console.error('Erro ao realizar login:', response.statusText);
+                alert('Erro ao realizar login:', response.statusText);
+              }
+            } catch (error) {
+              console.error('Erro ao realizar login:', error.message);
+              alert('Erro ao realizar login:', error.message);
             }
-          } catch (error) {
-            console.error('Erro ao realizar login:', error.message);
-            alert('Erro ao realizar login:', error.message);
-          }
-        };
+          };
+          
 
     return (
         <>

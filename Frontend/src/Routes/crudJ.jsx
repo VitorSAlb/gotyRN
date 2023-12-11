@@ -22,35 +22,20 @@ const Teste = () => {
     setNovoJogo({ ...novoJogo, [name]: value });
   };
 
-  const handleImageChange = async (e) => {
-    const file = e.target.files[0];
+  const handleImageChange = (event) => {
+    const file = event.target.files[0]; // Assume que está permitindo apenas um arquivo
   
-    if (file && file.type === 'image/svg+xml') {
-      try {
-        const formData = new FormData();
-        formData.append('ImagemJogo', file);
+    // Faça o que precisar com o arquivo, por exemplo, exiba informações ou faça upload
+    console.log('Arquivo selecionado:', file);
   
-        const response = await fetch('http://localhost:3000/api/upload-imagem', {
-          method: 'POST',
-          body: formData,
-        });
-  
-        if (response.ok) {
-          const imagePath = await response.json();
-          setNovoJogo({ ...novoJogo, ImagemJogo: imagePath });
-        } else {
-          console.error('Erro ao fazer upload da imagem:', response.statusText);
-          alert('Erro ao fazer upload da imagem:', response.statusText);
-        }
-      } catch (error) {
-        console.error('Erro ao fazer upload da imagem:', error.message);
-        alert('Erro ao fazer upload da imagem:', error.message);
-      }
-    } else {
-      console.error('Por favor, selecione um arquivo SVG.');
-      alert('Por favor, selecione um arquivo SVG.');
-    }
+    // Se você quiser armazenar o arquivo no estado para uso posterior
+    setNovoJogo({
+      ...novoJogo,
+      ImagemJogo: file,
+    });
   };
+  
+  
   
 
   const handleSubmit = async (e) => {
@@ -122,15 +107,16 @@ const Teste = () => {
                     </div>  
                     <div className='right-column'>
                     <div className='form-group'>
+                          <label htmlFor="imagemJogo">Imagem do Jogo:</label>
                           <input
-                            type="text"
-                            name="ImagemJogo"
-                            value={novoJogo.ImagemJogo}
-                            placeholder='Nome da sua imagem sem .svg'
-                            onChange={handleInputChange}
-                          />
+                          type="file"
+                          name="ImagemJogo"
+                          id="imagemJogo"
+                          accept=".svg"
+                          onChange={handleImageChange}
+                        />
                         </div>
-                        <p className='obs'>OBS: coloque a imagem na /public/img/capaGames/<br/> e acima escreva so o nome da sua imagem svg</p>
+                        {/* <p className='obs'>OBS: coloque a imagem na /public/img/capaGames/<br/> e acima escreva so o nome da sua imagem svg</p> */}
                         <button type="submit">Adicionar Jogo</button>
                     </div>    
                     

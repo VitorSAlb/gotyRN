@@ -443,15 +443,14 @@ const port = 3000;
         });
     });
 
+    //Vitor fez alterações aqui
+
     app.get('/jogos/pesquisar', (req, res) => {
-      const pesquisa = req.query.nome;
-    
+      const pesquisa = req.query.termo; 
       if (!pesquisa) {
-        res.status(400).send('Parâmetro "nome" não fornecido na consulta.');
+        res.status(400).send('Parâmetro "termo" não fornecido na consulta.');
         return;
       }
-    
-      // Função para obter jogos com nome aproximado
       pesquisaJogos(pesquisa, (err, jogos) => {
         if (err) {
           res.status(500).send('Erro ao realizar pesquisa por nome aproximado.');
@@ -460,7 +459,9 @@ const port = 3000;
         }
       });
     });
-
+    
+    //
+    
     app.delete('/excluirJogo/:id', (req, res) => {
       const jogoId = req.params.id;
     

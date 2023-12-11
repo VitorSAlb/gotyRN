@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { format } from 'date-fns';
+import { Link } from 'react-router-dom';
 import "../Styles/cards.css"
 
 const AllJogos = () => {
@@ -35,7 +36,7 @@ const AllJogos = () => {
   return (
     <div className="nr-section" id="newRelease">
       {jogos.map((item) => (
-        <div key={item.JogosID} className="nr-card" onClick={() => cardClick(item.JogosID)}>
+        <Link key={item.JogosID} to={`/teste3/${item.JogosID}`} className="nr-card">
           <div className="photo-card">
             <img
               style={{ height: '202px', width: '155px' }}
@@ -68,7 +69,7 @@ const AllJogos = () => {
               ></div>
             </div>
           </div>
-        </div>
+          </Link>
       ))}
     </div>
   );
