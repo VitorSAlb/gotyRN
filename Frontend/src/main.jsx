@@ -5,11 +5,13 @@ import ReactDOM from 'react-dom/client'
 import App from './App'
 import Jogos from './Routes/Jogos'
 
+import Pesquisa from './Routes/PesquisaSection'
 import Login from './Routes/Login'
 import Registro from './Routes/Registro'
 import CrudJ from './Routes/crudJ'
 import CrudP from './Routes/crudP'
 import EditJ from './Routes/editJ'
+import EditP from './Routes/EditP'
 import UserPG from './Routes/UserPG'
 import Teste3 from './Routes/Teste'
 import ListaJogos from './Routes/ListaJogos'
@@ -24,7 +26,6 @@ import "./Styles/base.css"
 import {createBrowserRouter, RouterProvider} from 'react-router-dom'
 import RouteData from './Routes/RouteData'
 import ErrorPage from './Routes/ErrorPage'
-import PesquisaSection from './Routes/PesquisaSection'
 
 
 
@@ -70,13 +71,13 @@ const router = createBrowserRouter([
     path: "/EditJ/:id",
     element: <EditJ />
   },
-  // {
-  //   path: "/jogos/pesquisa",
-  //   element: <Pesquisa />
-  // },
+  {
+    path: "/EditP/:id",
+    element: <EditP />
+  },
   {
     path: "/jogos/pesquisa",
-    element: <PesquisaSection />
+    element: <Pesquisa />
   },
   {
     path: "/teste3/:id",

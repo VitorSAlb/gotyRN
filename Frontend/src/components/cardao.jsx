@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { format } from 'date-fns';
+import { Link } from 'react-router-dom';
 import '../Styles/cardao.css'
 
 const Cardao = () => {
@@ -41,7 +42,7 @@ const Cardao = () => {
     return (
       <div className='cardao-section'>
           {jogos.map((item) =>(
-            <div className="cardao" key={item.JogosID} onClick={() => cardClick(item.JogosID)}>
+            <Link key={item.JogosID} to={`/teste3/${item.JogosID}`} className="cardao">
             <div className="photo-cardao">
             <img
                 style={{ height: '404px', width: '310px' }}
@@ -74,7 +75,7 @@ const Cardao = () => {
                 </div>
             </div>
             </div>
-        </div>
+        </Link>
           ))}
       </div>
         

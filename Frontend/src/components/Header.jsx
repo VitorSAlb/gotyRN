@@ -1,39 +1,28 @@
-
 import "../Styles/Header.css";
+import { Link } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 
 const Header = () => {
   const [isMenuVisible, setMenuVisibility] = useState(false);
-  const [activeUser, setActiveUser] = useState(null);
+  const [activeUser, setActiveUser] = useState(null); // Estado para armazenar o nome do usuário
 
   const toggleMenu = () => {
     setMenuVisibility(!isMenuVisible);
   };
 
   useEffect(() => {
-    // Função para obter todos os jogos
     const verificarUsuarioAtivo = async () => {
       try {
         const response = await fetch('http://localhost:3000/verificarUsuario');
         const data = await response.json();
         setActiveUser(data);
-      } else {
-        setActiveUser(null);
+        console.log(data)
+      } catch (error) {
+        console.error('Erro ao obter jogos:', error.message);
       }
-    } catch (error) {
-      console.error('Erro ao obter usuário ativo:', error.message);
-    }
-  };
+    };
 
-  useEffect(() => {
-    // Busca o usuário ativo inicialmente
-    fetchActiveUser();
-
-    // Configura um intervalo para buscar o usuário ativo a cada 5 segundos (ajuste conforme necessário)
-    const intervalId = setInterval(fetchActiveUser, 5000);
-
-    // Limpa o intervalo ao desmontar o componente para evitar vazamentos de memória
-    return () => clearInterval(intervalId);
+    verificarUsuarioAtivo();
   }, []);
 
   const createMenuItem = (text, href) => (
@@ -42,7 +31,7 @@ const Header = () => {
     </li>
   );
 
-  const handleLogout = async () => {
+   const handleLogout = async () => {
     try {
       const response = await fetch('http://localhost:3000/logout', {
         method: 'POST',
@@ -50,11 +39,9 @@ const Header = () => {
           'Content-Type': 'application/json',
         },
       });
-  
+
       if (response.ok) {
         console.log('Logout realizado com sucesso!');
-        // Exemplo de redirecionamento para a página de login (ajuste conforme sua estrutura de rotas)
-        window.location.href = '/';
       } else {
         console.error('Erro ao realizar logout');
       }
@@ -62,7 +49,6 @@ const Header = () => {
       console.error('Erro ao realizar logout:', error.message);
     }
   };
-  
 
   return (
     <header>
@@ -82,24 +68,24 @@ const Header = () => {
           ☰
         </div>
 
-        {/* Lista de usuário */}
         <ul className="user-log">
           {activeUser ? (
             <>
-              <li><a href={`/user/${activeUser.UsuarioNome}`}>{`Bem-vindo, ${activeUser.UsuarioNome}`}</a></li>
-              <li className="barra-ul">|</li>
-              <li><a onClick={handleLogout}>Sair</a></li>
-            </>
+            {createMenuItem('Registre-se', '/registro')}
+            <li className="barra-ul">|</li>
+            {createMenuItem('Login', '/login')}
+          </>
+            
           ) : (
+          
             <>
-              <li><a href="/registro">Registre-se</a></li>
-              <li className="barra-ul">|</li>
-              <li><a href="/login">Login</a></li>
+                        
+            <li><a href="/user/:UsuarioNome">{`Bem-vindo`}</a></li>
+            <li className="barra-ul">|</li>
+            <li><a onClick={handleLogout}>Sair</a></li>
             </>
           )}
         </ul>
-
-
       </nav>
     </header>
   );

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 import Header from '../Components/Header';
 import Footer from '../Components/Footer';
@@ -9,104 +9,71 @@ import "../Styles/FormData.css";
 import "../Styles/forms.css";
 
 const EditJ = () => {
-  const {id} = useParams();
-  const [novosDados, setNovosDados] = useState({
+  const {id} = useParams()
+
+  const [jogoId, setJogoId] = useState(id);
+  const [novoJogo, setNovoJogo] = useState({
     JogosNome: "",
-    ImagemJogo: "", 
+    ImagemJogo: "",
     PlataformaNome: "",
     GeneroNome: "",
     Descricao: "",
-    DataDeLancamento: "",
+    DataDeLancamento: ""
   });
 
-  const [jogoEditado, setJogoEditado] = useState(null)
-
   useEffect(() => {
-    const fetchJogoDetails = async () => {
+    // Obter dados do jogo a ser editado ao carregar a página
+    const obterDadosDoJogo = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/api/jogos/${id}`);
-        if (response.ok) {
-          const jogoDetalhes = await response.json();
-          setJogoEditado(jogoDetalhes);
-        } else {
-          console.error('Erro ao obter detalhes do jogo:', response.statusText);
-          alert('Erro ao obter detalhes do jogo:', response.statusText);
-        }
+        const response = await fetch(`http://localhost:3000/obterJogoPorId/${jogoId}`);
+        const dadosDoJogo = await response.json();
+
+        setJogoId(jogoId);
+        setNovoJogo((prevJogo) => ({
+          ...prevJogo,
+          JogosNome: dadosDoJogo.JogosNome,
+          ImagemJogo: dadosDoJogo.ImagemJogo,
+          PlataformaNome: dadosDoJogo.PlataformaNome,
+          GeneroNome: dadosDoJogo.GeneroNome,
+          Descricao: dadosDoJogo.Descricao,
+          DataDeLancamento: dadosDoJogo.DataDeLancamento,
+        }));
       } catch (error) {
-        console.error('Erro ao obter detalhes do jogo:', error.message);
-        alert('Erro ao obter detalhes do jogo:', error.message);
+        console.error('Erro ao obter dados do jogo:', error.message);
       }
     };
-  
-    if (id) {
-      fetchJogoDetails();
-    }
-  }, [id]);
 
-  useEffect(() => {
-    if (jogoEditado) {
-      setNovosDados({
-        ...novosDados,
-        JogosNome: jogoEditado.JogosNome,
-        PlataformaNome: jogoEditado.PlataformaNome,
-        GeneroNome: jogoEditado.GeneroNome,
-        Descricao: jogoEditado.Descricao,
-        DataDeLancamento: jogoEditado.DataDeLancamento,
-      });
-    }
-  }, [jogoEditado]);
+    obterDadosDoJogo();
+  }, [jogoId]);
+
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setNovosDados({ ...novosDados, [name]: value });
+    setNovoJogo({ ...novoJogo, [name]: value });
   };
 
-  // const handleImageChange = async (e) => {
-  //   const file = e.target.files[0];
-  
-  //   if (file && file.type === 'image/svg+xml') {
-  //     try {
-  //       const formData = new FormData();
-  //       formData.append('ImagemJogo', file);
-  
-  //       const response = await fetch('http://localhost:3000/api/jogos', {
-  //         method: 'POST',
-  //         body: formData,
-  //       });
-  
-  //       if (response.ok) {
-  //         const imagePath = await response.json();
-  //         setNovoJogo({ ...novosDados, ImagemJogo: imagePath });
-  //       } else {
-  //         console.error('Erro ao fazer upload da imagem:', response.statusText);
-  //       }
-  //     } catch (error) {
-  //       console.error('Erro ao fazer upload da imagem:', error.message);
-  //     }
-  //   } else {
-  //     console.error('Por favor, selecione um arquivo SVG.');
-  //   }
-  // };
-  
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:3000/api/jogos', {
-        method: 'POST',
+      const response = await fetch(`http://localhost:3000/editarJogo/${jogoId}`, {
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(novosDados),
+        body: JSON.stringify(novoJogo),
       });
 
       if (response.ok) {
-        console.log('Jogo adicionado com sucesso!');
+        console.log('Jogo editado com sucesso!');
+        alert('Jogo editado com sucesso!');
       } else {
-        console.error('Erro ao adicionar o jogo:', response.statusText);
+        console.error('Erro ao editar o jogo:', response.statusText);
+        alert('Erro ao editar o jogo:', response.statusText);
       }
     } catch (error) {
-      console.error('Erro ao adicionar o jogo:', error.message);
+      console.error('Erro ao editar o jogo:', error.message);
+      alert('Erro ao editar o jogo:', error.message);
     }
   };
 
@@ -136,19 +103,19 @@ const EditJ = () => {
                   <div className='form-container'>
                     <div className='left-column'>
                       <div className='form-group'>  
-                        <input type="text" name="JogosNome" value={novosDados.JogosNome} placeholder={jogoEditado ? `Nome Original: ${jogoEditado.JogosNome}` : 'Nome do Jogo'} onChange={handleInputChange} />
+                        <input type="text" name="JogosNome" value={novoJogo.JogosNome} placeholder={`Nome do Jogo (Atual: ${novoJogo.JogosNome})`} onChange={handleInputChange} />
                       </div>
                       <div className='form-group'>  
-                        <input type="text" name="PlataformaNome" value={novosDados.PlataformaNome} placeholder='Selecione a Plataforma' onChange={handleInputChange} />
+                        <input type="text" name="PlataformaNome" value={novoJogo.PlataformaNome} placeholder={`Plataforma (Atual: ${novoJogo.PlataformaNome})`} onChange={handleInputChange} />
                       </div>
                       <div className='form-group'>  
-                        <input type="text" name="GeneroNome" value={novosDados.GeneroNome} placeholder='Selecione o Genero' onChange={handleInputChange} />
+                        <input type="text" name="GeneroNome" value={novoJogo.GeneroNome} placeholder={`Gênero (Atual: ${novoJogo.GeneroNome})`} onChange={handleInputChange} />
                       </div>
                       <div className='form-group'>  
-                        <input type="date" name="DataDeLancamento" value={novosDados.DataDeLancamento} onChange={handleInputChange} />
+                        <input type="date" name="DataDeLancamento" value={novoJogo.DataDeLancamento} onChange={handleInputChange} />
                       </div>
                       <div className='form-group'>  
-                        <textarea type="text" className='descricao' name="Descricao" value={novosDados.Descricao} placeholder='Coloque uma Descrição para o jogo' onChange={handleInputChange} />
+                        <textarea type="text" name="Descricao" value={novoJogo.Descricao} placeholder={`Descrição (Atual: ${novoJogo.Descricao})`} onChange={handleInputChange} />
                       </div>
                     </div>  
                     <div className='right-column'>
@@ -156,7 +123,7 @@ const EditJ = () => {
                           <input
                             type="text"
                             name="ImagemJogo"
-                            value={novosDados.ImagemJogo}
+                            value={novoJogo.ImagemJogo}
                             placeholder='Nome da sua imagem sem .svg'
                             onChange={handleInputChange}
                           />

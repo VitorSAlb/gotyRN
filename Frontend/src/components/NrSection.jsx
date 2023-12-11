@@ -29,7 +29,7 @@ const NrSection = () => {
 
 
   const getFormattedGameName = (JogosNome) => {
-
+    // Substituir espaços por "-" e converter para minúsculas
     return JogosNome.toLowerCase().replace(/\s+/g, '-');
   };
 
@@ -45,7 +45,7 @@ const NrSection = () => {
       }
     }
   
-    return '00/00/0000';
+    return '00/00/0000'; // ou outra ação apropriada se a data não estiver presente ou for inválida
   };
   
 

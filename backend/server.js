@@ -95,67 +95,66 @@ const port = 3000;
         });
       }
   
-      
   // -----------------------------------------------------
   // CRIAÇÃO DE TABELAS PARA JOGOS, PLATAFORMAS E USUARIOS
 
-  db.run(
-      `CREATE TABLE IF NOT EXISTS Jogos(
-          JogosID INTEGER PRIMARY KEY AUTOINCREMENT,
-          JogosNome TEXT,
-          ImagemJogo TEXT,
-          PlataformaNome TEXT,
-          GeneroNome TEXT,
-          Descricao TEXT,
-          DataDeLancamento DATE,
-          Nota INTEGER,
-          Avaliacoes INTEGER
-      )`,
-      (err)=>{
-          if(err){
-              console.error(err);
-          }else{
-              console.log("Tabela Jogos criada com sucesso.");
-          }
-      }
-  );
-
-  db.run(
-      `CREATE TABLE IF NOT EXISTS Usuarios(
-          UsuariosID INTEGER PRIMARY KEY AUTOINCREMENT,
-          UsuarioNome TEXT,
-          Username TEXT,
-          UsuarioEmail TEXT,
-          UsuarioSenha TEXT,
-          dataDeNascimento TEXT,
-          Ativo BOOLEAN
-      )`,
-      (err)=>{
-          if(err){
-              console.error(err);
-          }else{
-              console.log("Tabela Usuarios criada com sucesso.");
-          }
-      }
-  );
-
-  db.run(
-    `CREATE TABLE IF NOT EXISTS Plataformas(
-        PlataformaID INTEGER PRIMARY KEY AUTOINCREMENT,
-        PlataformaNome TEXT,
-        Descricao TEXT
-    )`,
-    (err)=>{
-        if(err){
-            console.error(err);
-        }else{
-            console.log("Tabela Plataforma criada com sucesso.");
+    db.run(
+        `CREATE TABLE IF NOT EXISTS Jogos(
+            JogosID INTEGER PRIMARY KEY AUTOINCREMENT,
+            JogosNome TEXT,
+            ImagemJogo TEXT,
+            PlataformaNome TEXT,
+            GeneroNome TEXT,
+            Descricao TEXT,
+            DataDeLancamento DATE,
+            Nota INTEGER,
+            Avaliacoes INTEGER
+        )`,
+        (err)=>{
+            if(err){
+                console.error(err);
+            }else{
+                console.log("Tabela Jogos criada com sucesso.");
+            }
         }
-    }
-  );
+    );
 
-  adicionarJogosIniciais()
-  adicionarPlataformasIniciais()
+    db.run(
+        `CREATE TABLE IF NOT EXISTS Usuarios(
+            UsuariosID INTEGER PRIMARY KEY AUTOINCREMENT,
+            UsuarioNome TEXT,
+            Username TEXT,
+            UsuarioEmail TEXT,
+            UsuarioSenha TEXT,
+            dataDeNascimento TEXT,
+            Ativo BOOLEAN
+        )`,
+        (err)=>{
+            if(err){
+                console.error(err);
+            }else{
+                console.log("Tabela Usuarios criada com sucesso.");
+            }
+        }
+    );
+
+    db.run(
+      `CREATE TABLE IF NOT EXISTS Plataformas(
+          PlataformaID INTEGER PRIMARY KEY AUTOINCREMENT,
+          PlataformaNome TEXT,
+          Descricao TEXT
+      )`,
+      (err)=>{
+          if(err){
+              console.error(err);
+          }else{
+              console.log("Tabela Plataforma criada com sucesso.");
+          }
+      }
+    );
+
+    adicionarJogosIniciais()
+    adicionarPlataformasIniciais()
 // -----------------------------------------------------
 // FUNÇÕES TABELA JOGOS
 
@@ -202,7 +201,7 @@ const port = 3000;
     const { JogosNome, ImagemJogo, PlataformaNome, GeneroNome, Descricao, DataDeLancamento } = novosDados;
     const sql = 'UPDATE Jogos SET JogosNome = ?, ImagemJogo = ?, PlataformaNome = ?, GeneroNome = ?, Descricao = ?, DataDeLancamento = ? WHERE JogosID = ?';
   
-    db.run(sql, [JogosNome, ImagemJogo, PlataformaNome, GeneroNome, Descricao, DataDeLancamento], (err) => {
+    db.run(sql, [JogosNome, ImagemJogo, PlataformaNome, GeneroNome, Descricao, DataDeLancamento, jogoId], (err) => {
       if (err) {
         console.error('Erro ao editar o jogo:', err.message);
         callback(err);
@@ -292,7 +291,7 @@ const port = 3000;
             callback(null, row !== null);
         }
     });
-}
+  }
 
 // -----------------------------------------------------
 // FUNÇÕES TABELA PLATAFORMAS
@@ -323,20 +322,45 @@ const port = 3000;
     });
   }
 
-  function obterPlataformaPorID(plataformaID) {
+  function obterPlataformaPorID(plataformaID, callback) {
     const sql = 'SELECT * FROM Plataformas WHERE PlataformaID = ?';
+    
+      db.get(sql, [plataformaID], (err, row) => {
+          if (err) {
+              console.error('Erro ao obter o jogo:', err.message);
+              // callback(err, null);
+          } else {
+              // callback(null, row);
+          }
+      });
+  }
 
-    return new Promise((resolve, reject) => {
-        db.get(sql, [plataformaID], (err, plataforma) => {
-            if (err) {
-                console.error('Erro ao obter informações da plataforma:', err.message);
-                reject(err);
-            } else {
-                resolve(plataforma);
-            }
-        });
+  function editarPlataforma(plataformaId, novosDados, callback) {
+    const {PlataformaNome, Descricao} = novosDados;
+    const sql = 'UPDATE Plataformas SET PlataformaNome = ?, Descricao = ? WHERE PlataformaID = ?';
+
+    db.run(sql, [PlataformaNome, Descricao, plataformaId], (err) => {
+      if (err) {
+        console.error('Erro ao editar a plataforma:', err.message);
+        callback(err);
+      } else {
+        callback(null);
+      }
     });
-}
+  }
+
+  function excluirPlataforma(plataformaId, callback) {
+    const sql = 'DELETE FROM Plataformas WHERE PlataformaID = ?';
+
+    db.run(sql, [plataformaId], (err) => {
+      if (err) {
+        console.error('Erro ao excluir a plataforma:', err.message);
+        callback(err);
+      } else {
+        callback(null);
+      }
+    });
+  }
 // -----------------------------------------------------
 // FUNÇÕES IMAGEM
 
@@ -367,155 +391,166 @@ const port = 3000;
       }
   );
 
-  // ENDPOINTS JOGOS ------------------------------------------
-// No servidor (antes da inicialização do servidor):
-      app.post('/logout', (req, res) => {
-        const sqlUpdate = 'UPDATE Usuarios SET Ativo = 0 WHERE Ativo = 1';
+// ENDPOINTS JOGOS ------------------------------------------
+  
+  app.get('/obterTodosOsJogos', (req, res) => {
+    obterTodosOsJogos((err, jogos) => {
+      if (err || !jogos) {
+        res.status(500).send('Erro ao obter jogos');
+      } else {
+        res.json(jogos);
+      }
+    });
+  });
+    
+  app.get('/obterJogoPorId/:id', (req, res) => {
+    const jogoId = req.params.id;
+    obterJogoPorId(jogoId, (err, jogo) => {
+        if (err || !jogo) {
+            res.status(404).send('Jogo não encontrado');
+        } else {
+            // Incluir informações sobre a plataforma
+            const plataforma = obterPlataformaPorID(jogo.PlataformaID);
+            const jogoComPlataforma = { ...jogo, Plataforma: plataforma };
+            res.json(jogoComPlataforma);
+        }
+    });
+});
 
-        db.run(sqlUpdate, [], (err) => {
-          if (err) {
-            console.error('Erro ao realizar logout:', err.message);
-            res.status(500).send('Erro ao realizar logout');
-          } else {
-            res.send('Logout realizado com sucesso!');
-          }
-        });
-      });
-
-
-
-      app.get('/obterTodasAsPlataformas', (req, res) => {
-        obterTodasAsPlataformas((err, plataformas) => {
-          if (err || !plataformas) {
-            res.status(500).send('Erro ao obter plataformas');
-          } else {
-            res.json(plataformas);
-          }
-        });
-      });
-      
-      app.get('/obterTodosOsJogos', (req, res) => {
-        obterTodosOsJogos((err, jogos) => {
-          if (err || !jogos) {
-            res.status(500).send('Erro ao obter jogos');
-          } else {
-            res.json(jogos);
-          }
-        });
-      });
-      
-      app.get('/verificarUsuario', (req, res) => {
-        verificarUsuarioAtivo((err, usuario) => {
-          if (err || !usuario) {
-            res.status(500).send('Erro ao obter jogos');
-          } else {
-            res.json(usuario);
-          }
-        });
-      });
-      
-    app.get('/obterJogoPorId/:id', (req, res) => {
+  app.put('/editarJogo/:id', (req, res) => {
       const jogoId = req.params.id;
-      obterJogoPorId(jogoId, (err, jogo) => {
-          if (err || !jogo) {
-              res.status(404).send('Jogo não encontrado');
-          } else {
-              // Incluir informações sobre a plataforma
-              const plataforma = obterPlataformaPorID(jogo.PlataformaID);
-              const jogoComPlataforma = { ...jogo, Plataforma: plataforma };
-              res.json(jogoComPlataforma);
-          }
+      const novosDados = req.body;
+    
+      editarJogo(jogoId, novosDados, (err) => {
+        if (err) {
+          res.status(500).send('Erro ao editar o jogo');
+        } else {
+          res.send('Jogo editado com sucesso!');
+        }
       });
   });
 
-
   
-    app.put('/editarJogo/:id', (req, res) => {
-        const jogoId = req.params.id;
-        const novosDados = req.body;
-      
-        editarJogo(jogoId, novosDados, (err) => {
-          if (err) {
-            res.status(500).send('Erro ao editar o jogo');
-          } else {
-            res.send('Jogo editado com sucesso!');
-          }
-        });
-    });
-
-    //Vitor fez alterações aqui
-
-    app.get('/jogos/pesquisar', (req, res) => {
-      const pesquisa = req.query.termo; 
-      if (!pesquisa) {
-        res.status(400).send('Parâmetro "termo" não fornecido na consulta.');
-        return;
+  app.get('/jogos/pesquisar', (req, res) => {
+    const pesquisa = req.query.termo; 
+    if (!pesquisa) {
+      res.status(400).send('Parâmetro "termo" não fornecido na consulta.');
+      return;
+    }
+    pesquisaJogos(pesquisa, (err, jogos) => {
+      if (err) {
+        res.status(500).send('Erro ao realizar pesquisa por nome aproximado.');
+      } else {
+        res.json(jogos);
       }
-      pesquisaJogos(pesquisa, (err, jogos) => {
-        if (err) {
-          res.status(500).send('Erro ao realizar pesquisa por nome aproximado.');
-        } else {
-          res.json(jogos);
-        }
-      });
     });
-    
-    //
-    
-    app.delete('/excluirJogo/:id', (req, res) => {
-      const jogoId = req.params.id;
-    
-      excluirJogo(jogoId, (err) => {
-        if (err) {
-          res.status(500).send('Erro ao excluir o jogo');
-        } else {
-          res.send('Jogo excluído com sucesso!');
-        }
-      });
-    });
+  });
 
-    app.post('/api/jogos', (req, res) => {
-      const novoJogo = req.body;
-      adicionarJogo(novoJogo);
-      res.send('Jogo adicionado com sucesso!');
-    });
-
-    app.post('/api/upload-imagem', upload.single('ImagemJogo'), (req, res) => {
-      const imagePath = `caminho/do/upload/${req.file.filename}`;
-      res.json(imagePath);
-    });
-
-  // ENDPOINTS USUARIO ----------------------------------------
-
-    app.post('/api/usuarios', (req, res) => {
-      const novoUsuario = req.body;
-      adicionarUsuario(novoUsuario);
-      res.send('Usuario adicionado com sucesso!');
-    });
-
-    app.post('/login', (req, res) => {
-      const { UsuarioEmail, UsuarioSenha } = req.body;
-    
-      // Função para realizar login
-      realizarLogin(UsuarioEmail, UsuarioSenha, (err, usuarioAutenticado) => {
-        if (err || !usuarioAutenticado) {
-          res.status(401).send('Email ou senha inválidos');
-        } else {
-          res.json({ mensagem: 'Login bem-sucedido', usuario: usuarioAutenticado });
-        }
-      });
-    });
-
-
-  // ENDPOINTS PLATAFORMAS ------------------------------------
-
-    app.post('/api/plataformas', (req, res) => {
-      const novaPlataforma = req.body;
-      adicionarPlataforma(novaPlataforma);
-      res.send('Plataforma adicionada com sucesso!');
-    });
-
+  app.delete('/excluirJogo/:id', (req, res) => {
+    const jogoId = req.params.id;
   
+    excluirJogo(jogoId, (err) => {
+      if (err) {
+        res.status(500).send('Erro ao excluir o jogo');
+      } else {
+        res.send('Jogo excluído com sucesso!');
+      }
+    });
+  });
+
+  app.post('/api/jogos', (req, res) => {
+    const novoJogo = req.body;
+    adicionarJogo(novoJogo);
+    res.send('Jogo adicionado com sucesso!');
+  });
+
+  app.post('/api/upload-imagem', upload.single('ImagemJogo'), (req, res) => {
+    const imagePath = `caminho/do/upload/${req.file.filename}`;
+    res.json(imagePath);
+  });
+
+// ENDPOINTS USUARIO ----------------------------------------
+
+  app.post('/api/usuarios', (req, res) => {
+    const novoUsuario = req.body;
+    adicionarUsuario(novoUsuario);
+    res.send('Usuario adicionado com sucesso!');
+  });
+
+  app.post('/login', (req, res) => {
+    const { UsuarioEmail, UsuarioSenha } = req.body;
+  
+    // Função para realizar login
+    realizarLogin(UsuarioEmail, UsuarioSenha, (err, usuarioAutenticado) => {
+      if (err || !usuarioAutenticado) {
+        res.status(401).send('Email ou senha inválidos');
+      } else {
+        res.json({ mensagem: 'Login bem-sucedido', usuario: usuarioAutenticado });
+      }
+    });
+  });
+
+  app.get('/verificarUsuario', (req, res) => {
+    verificarUsuarioAtivo((err, usuario) => {
+      if (err || !usuario) {
+        res.status(500).send('Erro ao obter jogos');
+      } else {
+        res.json(usuario);
+      }
+    });
+  });
+
+// ENDPOINTS PLATAFORMAS ------------------------------------
+
+  app.post('/api/plataformas', (req, res) => {
+    const novaPlataforma = req.body;
+    adicionarPlataforma(novaPlataforma);
+    res.send('Plataforma adicionada com sucesso!');
+  });
+
+  app.delete('/excluirPlataforma/:id', (req, res) => {
+    const plataformaId = req.params.id;
+  
+    excluirPlataforma(plataformaId, (err) => {
+      if (err) {
+        res.status(500).send('Erro ao excluir a plataforma');
+      } else {
+        res.send('Plataforma excluída com sucesso!');
+      }
+    });
+  });
+
+  app.put('/editarPlataforma/:id', (req, res) => {
+    const plataformaId = req.params.id;
+    const novosDados = req.body;
+  
+    editarPlataforma(plataformaId, novosDados, (err) => {
+      if (err) {
+        res.status(500).send('Erro ao editar a plataforma');
+      } else {
+        res.send('Plataforma editada com sucesso!');
+      }
+    });
+  });
+
+  app.get('/obterPlataformaPorId/:id', (req,res) =>{
+    const plataformaId = req.params.id
+    obterPlataformaPorID(plataformaId, (err, jogo) => {
+      if (err || !jogo) {
+          res.status(404).send('Jogo não encontrado');
+      }
+    })
+  })
+
+  app.get('/obterTodasAsPlataformas', (req, res) => {
+    obterTodasAsPlataformas((err, plataformas) => {
+      if (err || !plataformas) {
+        res.status(500).send('Erro ao obter plataformas');
+      } else {
+        res.json(plataformas);
+      }
+    });
+  });
   //______________________
   //MODULOS DE EXPORTAÇÃO
 
@@ -528,6 +563,19 @@ const port = 3000;
     verificarUsuarioAtivo
   };
 
+  // No servidor (antes da inicialização do servidor):
+  app.post('/logout', (req, res) => {
+    const sqlUpdate = 'UPDATE Usuarios SET Ativo = 0 WHERE Ativo = 1';
+
+    db.run(sqlUpdate, [], (err) => {
+      if (err) {
+        console.error('Erro ao realizar logout:', err.message);
+        res.status(500).send('Erro ao realizar logout');
+      } else {
+        res.send('Logout realizado com sucesso!');
+      }
+    });
+  });
   
   // ______________________
   // INICIALIZAÇÃO SERVIDOR

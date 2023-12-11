@@ -10,6 +10,10 @@
     cursor: pointer;
 }
 
+.cardao:hover {
+    opacity: 0.7;
+}
+
 .photo-cardao {
     background-color: #414141;
     width: 100%;
@@ -26,6 +30,7 @@
     padding: 0.25rem;
     font-family: 'Roboto', sans-serif;
     font-weight: 400;
+    background-color: #D9D9D9;
 }
 
 .name-cardao {

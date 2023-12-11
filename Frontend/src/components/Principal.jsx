@@ -53,7 +53,7 @@ const Principal = () => {
     return (
         <div className="jogo-section">
             {jogos && jogos.map((item) => (
-            <Link key={item.JogosID} to={`/jogos/jogo/${item.JogosID}`} className="main-jogo">
+            <div key={item.JogosID} to={`/jogos/jogo/${item.JogosID}`} className="main-jogo">
             <div className="capag-jogo">
                 <img
                 style={{ height: '606px', width: '465px' }}
@@ -114,7 +114,7 @@ const Principal = () => {
                 </div>
                 </div>
               </div>
-            </Link>
+            </div>
         ))}
         </div>
     )
