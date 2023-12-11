@@ -7,9 +7,8 @@ import "../Styles/gamePage.css"
 
 const Principal = () => {
     const [jogos, setJogos] = useState(null);
-    const {id} = useParams();
-
-    const idAnterior = id - 1;
+    const { id } = useParams();
+  
 
     useEffect(() => {
         const obterTodosOsJogos = async () => {
@@ -19,12 +18,13 @@ const Principal = () => {
 
                 console.log('Data from server:', data);
 
-                const jogosLimitados = data.slice(idAnterior, id);
-
-            setJogos(jogosLimitados);
-            } catch (error) {
+                const jogoAtual = data.find(jogo => jogo.JogosID === parseInt(id));
+            
+                setJogos([jogoAtual]);
+              } catch (error) {
                 console.error('Erro ao obter jogos:', error.message);
             }
+            
         };
         obterTodosOsJogos();
     }, []);
@@ -49,6 +49,42 @@ const Principal = () => {
         return '00/00/0000'; 
       };
 
+      const handleRateNumberClick = (jogoId) => {
+        const notaJogo = prompt("Insira a nota do jogo (0 - 100):");
+        
+        // Verifique se o usuário inseriu um valor válido
+        if (notaJogo !== null && !isNaN(notaJogo) && notaJogo >= 0 && notaJogo <= 100) {
+          // Atualize a nota no estado local ou faça uma chamada para atualizar no servidor
+          console.log(`Nota inserida para o jogo ${jogoId}: ${notaJogo}`);
+          
+          // Chame a função para atualizar a nota no servidor
+          atualizarNotaDoJogo(jogoId, notaJogo);
+        } else {
+          alert("Por favor, insira uma nota válida (0 - 100).");
+        }
+      };
+
+     function atualizarNotaDoJogo(jogoId, notaJogo) {
+      fetch(`http://localhost:3000/atualizarNotaJogo/${jogoId}`, {
+        method: 'POST', // No servidor, você configurou como POST
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ novaNota: notaJogo }), // Corrigi para 'novaNota'
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log('Nota do jogo atualizada com sucesso:', data);
+
+          window.location.reload();
+        })
+        .catch((error) => {
+          console.error('Erro ao atualizar a nota do jogo:', error);
+        });
+    }
+     
+     
+
 
     return (
         <div className="jogo-section">
@@ -66,9 +102,9 @@ const Principal = () => {
                   <h1 style={{ fontSize: '2rem' }}>{item.JogosNome}</h1>
                   <p>{getFormattedDate(item.DataDeLancamento)}</p>
                 </div>
-                <div className="publisherg-jogo">
+                <Link className="publisherg-jogo" to={`/plataformas/${getFormattedGameName(item.PlataformaNome)}`}>
                   <p>{item.PlataformaNome}</p>
-                </div>
+                </Link>
                 <div className="generog-jogo">
                   <h2>{item.GeneroNome}</h2>
                 </div>
@@ -95,14 +131,14 @@ const Principal = () => {
                 <p>Nome do usuário:</p>
 
                 <div className="blocks-note">
-                  <div className="status-div">
+                  {/* <div className="status-div">
                     <a className="statusA"></a>
                     <p className="statusP">Status v</p>
+                  </div> */}
+                  <div className="rateNumber-div" onClick={() => handleRateNumberClick(item.JogosID)}>
+                    <a></a>
+                    <p>0 - 100</p>
                   </div>
-                <div className="rateNumber-div">
-                  <a></a>
-                  <p>0 - 100</p>
-                </div>
                 <div className="rate-div">
                   <a></a>
                   <p>rate</p>

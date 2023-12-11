@@ -13,6 +13,7 @@ import CrudP from './Routes/crudP'
 import EditJ from './Routes/editJ'
 import EditP from './Routes/EditP'
 import UserPG from './Routes/UserPG'
+import PlataformasPG from './Routes/PlataformasPG '
 import Teste3 from './Routes/Teste'
 import ListaJogos from './Routes/ListaJogos'
 import ListaPlataformas from './Routes/ListaPlataformas'
@@ -90,6 +91,10 @@ const router = createBrowserRouter([
   {
     path: "/user/:UsuarioNome",
     element: <UserPG />
+  },
+  {
+    path: "/plataformas/:PlataformaNome",
+    element: <PlataformasPG />
   },
 ]);
 

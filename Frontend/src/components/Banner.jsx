@@ -9,7 +9,7 @@ const Banner = ({ jogo }) => {
   const publisher = "Microsoft";
   const genero = "RPG | Aventura";
   const description = "Jogo com mais de mil planetas exploráveis";
-  const progress = 58;
+  // const progress = 58;
 
   const renderProgressColor = (progress) => {
     if (progress < 50) {
@@ -36,7 +36,7 @@ const Banner = ({ jogo }) => {
         <div className="publisherg-banner">
           <h2>{publisher}</h2>
         </div>
-        <div className="chao">
+        {/* <div className="chao">
           <div className="scoreg-jogo">
             <h1>{progress}</h1>
             <h3>user score</h3>
@@ -48,7 +48,7 @@ const Banner = ({ jogo }) => {
               id="progress"
             ></div>
           </div>
-        </div>
+        </div> */}
       </div>
     </a>
   );

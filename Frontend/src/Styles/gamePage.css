@@ -134,12 +134,8 @@
     padding: 0.6rem 1rem;
     margin: 1px;
     background-color: #F0F0F0;
-    cursor: pointer;
 }
 
-.rate-div:hover {
-    opacity: 0.7;
-}
 
 .chao {
     display: grid;

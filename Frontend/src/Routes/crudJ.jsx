@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Header from '../Components/Header';
 import Footer from '../Components/Footer';
@@ -8,6 +8,7 @@ import "../Styles/FormData.css";
 import "../Styles/forms.css";
 
 const Teste = () => {
+  const [plataformas, setPlataformas] = useState([]);
   const [novoJogo, setNovoJogo] = useState({
     JogosNome: "",
     ImagemJogo: "", // Alterado o nome do campo para corresponder ao estado
@@ -17,10 +18,30 @@ const Teste = () => {
     DataDeLancamento: "",
   });
 
+  useEffect(() => {
+    // Função para obter as plataformas do banco de dados
+    const fetchPlataformas = async () => {
+      try {
+        const response = await fetch('http://localhost:3000/obterTodasAsPlataformas');
+        if (response.ok) {
+          const plataformasData = await response.json();
+          setPlataformas(plataformasData);
+        } else {
+          console.error('Erro ao obter plataformas:', response.statusText);
+        }
+      } catch (error) {
+        console.error('Erro ao obter plataformas:', error.message);
+      }
+    };
+  
+    fetchPlataformas();
+  }, []); // Executar apenas uma vez, ao montar o componente
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setNovoJogo({ ...novoJogo, [name]: value });
   };
+  
 
   const handleImageChange = (event) => {
     const file = event.target.files[0]; // Assume que está permitindo apenas um arquivo
@@ -92,8 +113,15 @@ const Teste = () => {
                       <div className='form-group'>  
                         <input type="text" name="JogosNome" value={novoJogo.JogosNome} placeholder='Nomde do Jogo' onChange={handleInputChange} />
                       </div>
-                      <div className='form-group'>  
-                        <input type="text" name="PlataformaNome" value={novoJogo.PlataformaNome} placeholder='Selecione a Plataforma' onChange={handleInputChange} />
+                      <div className='form-group'>
+                        <select name="PlataformaNome" value={novoJogo.PlataformaNome} onChange={handleInputChange}>
+                          <option value="" disabled>Selecione uma plataforma</option>
+                          {plataformas.map((plataforma) => (
+                            <option key={plataforma.PlataformaID} value={plataforma.PlataformaNome}>
+                              {plataforma.PlataformaNome}
+                            </option>
+                          ))}
+                        </select>
                       </div>
                       <div className='form-group'>  
                         <input type="text" name="GeneroNome" value={novoJogo.GeneroNome} placeholder='Selecione o Genero' onChange={handleInputChange} />

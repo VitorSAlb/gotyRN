@@ -158,6 +158,20 @@ const port = 3000;
 // -----------------------------------------------------
 // FUNÇÕES TABELA JOGOS
 
+  function atualizarNotaJogo(jogoId, novaNota, callback) {
+    const sql = 'UPDATE Jogos SET Nota = ? WHERE JogosID = ?';
+
+    db.run(sql, [novaNota, jogoId], (err) => {
+      if (err) {
+        console.error('Erro ao atualizar a nota do jogo:', err.message);
+        callback(err);
+      } else {
+        callback(null);
+      }
+    });
+  }
+
+
   function obterTodosOsJogos(callback) {
       const sql = 'SELECT * FROM Jogos';
     
@@ -300,12 +314,12 @@ const port = 3000;
     const sql = 'SELECT * FROM Plataformas';
 
     db.all(sql, [], (err, rows) => {
-        if (err) {
-            console.error('Erro ao obter todos as plataformas:', err.message);
-            callback(err, null);
-        } else {
-            callback(null, rows);
-        }
+      if (err) {
+        console.error('Erro ao obter todos as plataformas:', err.message);
+        callback(err, null);
+      } else {
+        callback(null, rows);
+      }
     });
   }
 
@@ -393,6 +407,27 @@ const port = 3000;
 
 // ENDPOINTS JOGOS ------------------------------------------
   
+
+  app.post('/atualizarNotaJogo/:id', (req, res) => {
+    const jogoId = req.params.id;
+    const novaNota = req.body.novaNota;
+
+    // Verifica se a nota é um número válido
+    if (isNaN(novaNota) || novaNota < 0 || novaNota > 100) {
+      res.status(400).send('A nota deve ser um número entre 0 e 100.');
+      return;
+    }
+
+    // Chama a função para atualizar a nota do jogo
+    atualizarNotaJogo(jogoId, novaNota, (err) => {
+      if (err) {
+        res.status(500).send('Erro ao atualizar a nota do jogo');
+      } else {
+        res.send('Nota do jogo atualizada com sucesso!');
+      }
+    });
+  });
+
   app.get('/obterTodosOsJogos', (req, res) => {
     obterTodosOsJogos((err, jogos) => {
       if (err || !jogos) {
@@ -551,6 +586,23 @@ const port = 3000;
       }
     });
   });
+
+  app.post('/obterDetalhesDaPlataforma', (req, res) => {
+    const { PlataformaNome } = req.body;
+
+    // Consulte o banco de dados para obter os detalhes da plataforma
+    const sql = 'SELECT * FROM Plataformas WHERE Nome = ?';
+
+    db.get(sql, [PlataformaNome], (err, row) => {
+      if (err) {
+        console.error('Erro ao obter detalhes da plataforma:', err.message);
+        res.status(500).json({ error: 'Erro interno do servidor' });
+      } else {
+        res.json(row);
+      }
+    });
+  });
+
   //______________________
   //MODULOS DE EXPORTAÇÃO
 
