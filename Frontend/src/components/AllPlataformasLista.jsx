@@ -6,7 +6,6 @@ const AllJogos = () => {
   const [plataformas, setPlataformas] = useState([]);
 
   useEffect(() => {
-    // Função para obter todos os jogos
     const obterTodosAsPlataformas = async () => {
       try {
         const response = await fetch('http://localhost:3000/obterTodasAsPlataformas');

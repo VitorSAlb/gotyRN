@@ -7,7 +7,6 @@ const AllJogos = () => {
   const [jogos, setJogos] = useState([]);
 
   useEffect(() => {
-    // Função para obter todos os jogos
     const obterTodosOsJogos = async () => {
       try {
         const response = await fetch('http://localhost:3000/obterTodosOsJogos');
@@ -25,12 +24,11 @@ const AllJogos = () => {
   }, []);
 
   const getFormattedGameName = (JogosNome) => {
-    // Substituir espaços por "-" e converter para minúsculas
     return JogosNome.toLowerCase().replace(/\s+/g, '-');
   };
 
   const getFormattedDate = (date) => {
-    return format(new Date(date), 'dd/MM/yyyy'); // Formatar a data
+    return format(new Date(date), 'dd/MM/yyyy'); 
   };
 
   return (

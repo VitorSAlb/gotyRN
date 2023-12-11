@@ -6,7 +6,6 @@ const AllJogosLista = () => {
   const [jogos, setJogos] = useState([]);
 
   useEffect(() => {
-    // Função para obter todos os jogos
     const obterTodosOsJogos = async () => {
       try {
         const response = await fetch('http://localhost:3000/obterTodosOsJogos');
@@ -28,7 +27,6 @@ const AllJogosLista = () => {
 
       if (response.ok) {
         console.log('Jogo excluído com sucesso!');
-        // Atualize a lista de jogos após a exclusão
         const jogosAtualizados = jogos.filter((jogo) => jogo.id !== jogoId);
         setJogos(jogosAtualizados);
         window.location.reload();

@@ -11,7 +11,7 @@ import "../Styles/topRated.css"
 
 function Jogos() {
 
-    const [activeSection, setActiveSection] = useState('jogos'); // Estado para controlar qual seção está ativa
+    const [activeSection, setActiveSection] = useState('jogos');
 
     const changeSection = (section) => {
       setActiveSection(section);
@@ -53,7 +53,6 @@ function Jogos() {
               <hr />
             </div>
   
-            {/* Renderizar a seção com base no estado ativo */}
             {activeSection === 'jogos' ? <AllJogos /> : <TrSection />}
           </div>
         </main>

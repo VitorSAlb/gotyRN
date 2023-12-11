@@ -6,7 +6,7 @@ function FormData() {
   const [result, setResult] = useState([]);
   const [dataToInsert, setDataToInsert] = useState({
     JogosNome: "",
-    ImagemJogo: "", // Alterado o nome do campo para corresponder ao estado
+    ImagemJogo: "", 
     PlataformaNome: "",
     GeneroNome: "",
     Decricao: "",
@@ -127,7 +127,7 @@ function FormData() {
                   <option value="Ação">Ação</option>
                   <option value="Aventura">Aventura</option>
                   <option value="RPG">RPG</option>
-                  {/* Adicione mais opções de gênero aqui */}
+
                 </select>
 
               </div>
@@ -142,7 +142,6 @@ function FormData() {
                   <option value="PC">PC</option>
                   <option value="PlayStation">PlayStation</option>
                   <option value="Xbox">Xbox</option>
-                  {/* Adicione mais opções de plataforma aqui */}
                 </select>
 
               </div>

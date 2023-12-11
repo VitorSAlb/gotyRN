@@ -21,7 +21,6 @@ const Banner = ({ jogo }) => {
     }
   };
 
-  // URL para redirecionamento (substitua pelo seu URL desejado)
   const redirectUrl = "/teste3/1";
 
   return (
