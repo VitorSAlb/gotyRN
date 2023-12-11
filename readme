@@ -1,0 +1,11 @@
+Para iniciar o backend, inicie um terminal cmd, vá ate a pasta backend do arquivo com o comando "cd"
+
+para iniciar o backend use o comando 
+/Backend> npx nodemon server.js
+
+e para iniciar o frontend, inicie outro terminal cmd, va ate a pasta frontend usando os mesmos caminhos com o comando "cd"
+
+e use o comando 
+/Frontend> npm run dev
+
+Assim, todo o codigo esta rodando
